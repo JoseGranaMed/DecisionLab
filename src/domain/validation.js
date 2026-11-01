@@ -92,7 +92,7 @@ export function validateProject(project, options = {}) {
   optionalText(project.description, 'description', errors);
   if (
     present(project.workflowStep) &&
-    !['details', 'alternatives', 'criteria', 'weights'].includes(project.workflowStep)
+    !['details', 'alternatives', 'criteria', 'weights', 'evaluation'].includes(project.workflowStep)
   ) {
     errors.push(issue('workflowStep', 'invalid-step', 'Paso del asistente desconocido.'));
   }

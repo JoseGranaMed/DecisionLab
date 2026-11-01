@@ -37,7 +37,7 @@ El estado muestra `dirty`, `saving`, `saved` o `error`. «Guardado» se anuncia 
 
 La aplicación recupera el proyecto por su ID al abrir o recargar `#/project/:id`. `#/new` crea un borrador explícitamente y redirige a esa ruta; `#/example` crea una copia editable del conjunto aprobado solo tras la acción del usuario. Volver a cargar la ruta del proyecto no crea otra copia. La lista y el dashboard derivan sus cantidades y estados de los registros reales.
 
-Desde 10C, el proyecto puede incluir `workflowStep` con `details`, `alternatives`, `criteria` o `weights`. Es opcional para leer registros anteriores; los proyectos nuevos comienzan en `details`. La ruta `#/project/:id` reanuda el paso guardado y las rutas con paso explícito actualizan ese valor mediante el mismo guardado automático. La versión de IndexedDB y `schemaVersion` permanecen en 1 porque el campo es compatible con los registros existentes.
+Desde 10C, el proyecto puede incluir `workflowStep` con `details`, `alternatives`, `criteria` o `weights`; 10D añade `evaluation`. Es opcional para leer registros anteriores; los proyectos nuevos comienzan en `details`. La ruta `#/project/:id` reanuda el paso guardado y las rutas con paso explícito actualizan ese valor mediante el mismo guardado automático. Las respuestas se escriben en el arreglo `evaluations` existente mediante interfaz → estado → repositorio → IndexedDB. La versión de IndexedDB y `schemaVersion` permanecen en 1 porque estos datos ya estaban previstos en el modelo.
 
 ## Versionado y límites
 

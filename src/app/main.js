@@ -4,6 +4,7 @@ import '../features/dashboard/dashboard.css';
 import '../features/demo/demo.css';
 import '../features/projects/projects.css';
 import '../features/wizard/wizard.css';
+import '../features/evaluation/evaluation.css';
 import { createRouter, routeNames } from './router.js';
 import { createNavigationState } from './navigation-state.js';
 import { createProjectState } from './project-state.js';
@@ -19,6 +20,7 @@ import {
   updateSaveState,
 } from '../features/projects/projects.js';
 import { officialExampleProject } from '../shared/demo/official-project.js';
+import { renderEvaluationPage, mountEvaluation } from '../features/evaluation/evaluation.js';
 import {
   stepFromHash,
   wizardPath,
@@ -119,14 +121,22 @@ async function renderRoute(route) {
         if (record.project.workflowStep !== step) projects.edit({ workflowStep: step });
         main.innerHTML =
           renderWizardChrome(step) +
-          (step === 'details' ? renderProjectEditor() : renderWizardStep(step)) +
+          (step === 'details'
+            ? renderProjectEditor()
+            : step === 'evaluation'
+              ? renderEvaluationPage()
+              : renderWizardStep(step)) +
           renderWizardFooter(step);
         mountWizardNavigation(main, id, step);
         if (step === 'details')
           validateEditor = mountProjectEditor(main, record.project, (fields) =>
             projects.edit(fields),
           );
-        else wizardHasInvalid = mountWizardStep(main, projects, step).hasInvalid;
+        else
+          wizardHasInvalid =
+            step === 'evaluation'
+              ? mountEvaluation(main, projects, id).hasInvalid
+              : mountWizardStep(main, projects, step).hasInvalid;
         updateSaveState(main, projects.snapshot());
       }
     } else if (route === 'dashboard' || route === 'comparisons') {
@@ -181,7 +191,7 @@ main.addEventListener('click', async (event) => {
 });
 
 window.addEventListener('beforeunload', (event) => {
-  if (projects.snapshot().dirty) {
+  if (projects.snapshot().dirty || wizardHasInvalid()) {
     event.preventDefault();
     event.returnValue = '';
   }

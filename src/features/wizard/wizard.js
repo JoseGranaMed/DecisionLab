@@ -17,17 +17,20 @@ const steps = [
   ['alternatives', 'Alternativas'],
   ['criteria', 'Criterios'],
   ['weights', 'Pesos'],
+  ['evaluation', 'Evaluación'],
 ];
 const descriptions = {
   alternatives:
     'Registra de dos a cinco opciones para comparar. Puedes guardar antes de completar la lista.',
-  criteria: 'Define de dos a ocho criterios y sus escalas. Las respuestas se añadirán después.',
+  criteria: 'Define de dos a ocho criterios y sus escalas.',
   weights:
     'Los porcentajes muestran la importancia relativa de cada criterio; no necesitas sumar 100.',
 };
 
 export function stepFromHash(hash) {
-  const match = /^#\/project\/[^/]+(?:\/(details|alternatives|criteria|weights))?$/.exec(hash);
+  const match = /^#\/project\/[^/]+(?:\/(details|alternatives|criteria|weights|evaluation))?$/.exec(
+    hash,
+  );
   return match?.[1] ?? 'details';
 }
 
@@ -47,7 +50,7 @@ export function renderWizardStep(step) {
 
 export function renderWizardFooter(step) {
   const index = steps.findIndex(([key]) => key === step);
-  return `<div class="wizard-footer"><a class="btn btn--outline" data-wizard-previous>${index === 0 ? 'Mis comparaciones' : '← Anterior'}</a>${index < steps.length - 1 ? '<a class="btn btn--primary" data-wizard-next>Siguiente →</a>' : '<span class="wizard-future">La evaluación se incorporará en la siguiente fase.</span>'}<a class="text-link" href="#/comparisons">Salir del asistente</a></div>${step === 'details' ? '' : '<p id="save-state" class="save-state" role="status" aria-live="polite"></p><p id="save-error" class="save-error" role="alert" hidden></p>'}`;
+  return `<div class="wizard-footer"><a class="btn btn--outline" data-wizard-previous>${index === 0 ? 'Mis comparaciones' : '← Anterior'}</a>${index < steps.length - 1 ? '<a class="btn btn--primary" data-wizard-next>Siguiente →</a>' : '<span class="wizard-future">Los resultados funcionales se incorporarán en la siguiente fase.</span>'}<a class="text-link" href="#/comparisons">Salir del asistente</a></div>${step === 'details' ? '' : '<p id="save-state" class="save-state" role="status" aria-live="polite"></p><p id="save-error" class="save-error" role="alert" hidden></p>'}`;
 }
 
 export function mountWizardNavigation(main, id, step) {
@@ -175,7 +178,7 @@ export function mountWizardStep(
               : error?.message || 'Asigna un peso positivo al menos a un criterio para evaluar.';
       } else {
         summary.textContent = validateSetup(current).ok
-          ? 'La configuración está lista para pasar a evaluación en la siguiente fase.'
+          ? 'La configuración está lista para evaluar.'
           : 'Los pesos son válidos. Completa los datos pendientes antes de evaluar.';
       }
     } else

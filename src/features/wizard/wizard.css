@@ -20,6 +20,7 @@
 .wizard-steps a {
   display: block;
   padding: 9px 11px;
+  overflow-wrap: anywhere;
   border: 1px solid var(--color-line);
   border-radius: 8px;
   color: var(--color-muted);
@@ -160,6 +161,9 @@
   }
   .wizard-steps li {
     min-width: 0;
+  }
+  .wizard-steps li:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
   }
   .wizard-item {
     grid-template-columns: 1fr;

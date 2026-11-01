@@ -1,10 +1,10 @@
-# Dominio y motor de evaluación · fase 10A
+# Dominio y motor de evaluación · fases 10A–10D
 
 ## Modelo de datos
 
 El dominio usa objetos y listas de JavaScript que pueden serializarse como JSON. `src/domain/model.js` documenta los tipos con JSDoc y expone `SCHEMA_VERSION = 1` y `createDraftProject({ id, timestamp })`. El llamador proporciona el identificador estable y una fecha ISO; el dominio no depende del reloj, del DOM ni del almacenamiento.
 
-Desde 10C, `Project` puede incluir `workflowStep` para recordar la etapa de configuración. `src/domain/setup.js` agrega operaciones puras para alternativas, criterios y pesos. Reutiliza `validateProject` en modo borrador, aplica límites del MVP y usa `normalizeWeights` para las proporciones. Las funciones del motor de evaluación de 10A permanecen separadas de la interfaz.
+Desde 10C, `Project` puede incluir `workflowStep`; 10D añade el valor `evaluation`. `src/domain/setup.js` contiene operaciones puras para alternativas, criterios y pesos. `src/domain/answers.js` añade operaciones puras para respuestas por par de IDs. Ambas reutilizan la validación y normalización de 10A. Las funciones del motor matemático permanecen separadas de la interfaz.
 
 | Entidad     | Campos                                                                                                                                     |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -18,7 +18,7 @@ Los criterios son `rating` o `numeric`. La dirección numérica es `higher` o `l
 
 ## Fórmulas y decisiones numéricas
 
-**Conveniencia.** El MVP acepta **enteros de 0 a 5**, inclusivos. La puntuación normalizada es `valor / 5 × 100`. Los controles futuros deben usar pasos enteros y explicar esa escala. Se eligió esta convención porque las respuestas aprobadas son enteras y evita sugerir una precisión subjetiva que aún no se diseñó. Admitir fracciones después requeriría cambiar validaciones y controles, no la fórmula.
+**Conveniencia.** El MVP acepta **enteros de 0 a 5**, inclusivos. La puntuación normalizada es `valor / 5 × 100`. Los controles de 10D ofrecen únicamente esos enteros y explican la escala. Se eligió esta convención porque las respuestas aprobadas son enteras y evita sugerir una precisión subjetiva que aún no se diseñó. Admitir fracciones después requeriría cambiar validaciones y controles, no la fórmula.
 
 **Numérico.** Se exige `min < max`, límites finitos, una unidad y un sentido favorable. Para `higher`, `((valor − min) / (max − min)) × 100`; para `lower`, `((max − valor) / (max − min)) × 100`. Los límites son inclusivos. Un valor fuera del rango produce un error; nunca se recorta ni extrapola silenciosamente. Cada criterio se normaliza antes de combinar unidades distintas.
 
@@ -48,7 +48,11 @@ Las funciones de `src/domain/index.js` reciben datos y devuelven `{ ok: true, va
 - `compareScores`: distingue empate exacto e igualdad aparente por presentación.
 - `compareScenarios(project, scenarioId)`: devuelve resultados base y alternativos, diferencia de puntuación, cambio de posición y variación de cada aporte. Un `rankChange` positivo significa que la alternativa ascendió.
 
-La futura capa de interfaz puede asociar `path` a controles, mostrar `message` y aplicar formato local a `score` y `points`. Los datos se mantienen planos para que una capa posterior pueda persistirlos en IndexedDB. Las vistas actuales siguen mostrando datos fijos y no invocan todavía el motor.
+La vista de evaluación asocia errores a controles y usa el estado de aplicación para persistir en IndexedDB. Las vistas actuales no muestran aún `score` ni `points` del proyecto: resultados queda para 10E. El motor se invoca en pruebas de integración con las respuestas guardadas.
+
+## Operaciones de respuestas · fase 10D
+
+`getEvaluation(project, alternativeId, criterionId)` devuelve la respuesta existente o `null`. `setEvaluation(project, alternativeId, criterionId, value)` agrega o reemplaza una única respuesta, valida IDs y valor y devuelve un proyecto nuevo. `removeEvaluation` elimina el par sin convertir vacío en cero. `evaluationProgress` devuelve `completed`, `total`, `remaining`, progreso por alternativa y pares pendientes; solo cuenta valores válidos para referencias existentes. No almacena puntuaciones derivadas. Los campos numéricos de la interfaz convierten coma o punto decimal a número antes de llamar al dominio y rechazan separadores de miles y formas ambiguas como `1.000`.
 
 ## Ejemplo aprobado
 
@@ -83,5 +87,6 @@ if (base.ok && comparison.ok) {
 | `validation.js`    | Errores estructurados para borrador y comparación completa.  |
 | `normalization.js` | Escalas de conveniencia y numérica; proporciones de pesos.   |
 | `evaluation.js`    | Aportes, puntuaciones, clasificación y detección de empates. |
+| `answers.js`       | Alta, sustitución, eliminación y progreso de respuestas.     |
 | `scenarios.js`     | Comparación de pesos alternativos y explicación de cambios.  |
 | `index.js`         | API pública del dominio.                                     |

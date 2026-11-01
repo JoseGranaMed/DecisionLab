@@ -1,0 +1,174 @@
+.evaluation-workspace {
+  min-width: 0;
+}
+.evaluation-progress-text {
+  margin: 0 0 10px;
+  font-weight: 700;
+}
+.evaluation-progress-track {
+  max-width: 1000px;
+}
+.evaluation-guidance,
+.evaluation-scroll-hint {
+  max-width: 880px;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+.evaluation-guidance {
+  margin: 16px 0 24px;
+}
+.evaluation-scroll-hint {
+  margin: 0 0 10px;
+}
+.evaluation-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid #dce1ea;
+  border-radius: 10px;
+  background: #fff;
+}
+.evaluation-scroll table {
+  min-width: max-content;
+  border-collapse: collapse;
+  text-align: left;
+}
+.evaluation-scroll th,
+.evaluation-scroll td {
+  min-width: 178px;
+  max-width: 220px;
+  padding: 15px;
+  border-right: 1px solid #e8eaf1;
+  border-bottom: 1px solid #e8eaf1;
+  vertical-align: top;
+}
+.evaluation-scroll th:first-child {
+  min-width: 190px;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: #fff;
+}
+.evaluation-scroll thead th {
+  background: #f7f8fa;
+}
+.evaluation-scroll thead th:first-child {
+  z-index: 2;
+  background: #f7f8fa;
+}
+.evaluation-scroll th strong,
+.evaluation-scroll th small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.evaluation-scroll th small {
+  margin-top: 6px;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.evaluation-control {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  font-size: 0.83rem;
+  font-weight: 700;
+}
+.evaluation-control input,
+.evaluation-control select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 9px 10px;
+  border: 1px solid #b8c0ca;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--color-ink);
+  font: 400 0.9rem var(--font-body);
+}
+.evaluation-control [aria-invalid='true'] {
+  border-color: #a12f32;
+}
+.evaluation-control .field-error {
+  color: #a12f32;
+  font-weight: 400;
+}
+.evaluation-control .field-error:empty {
+  display: none;
+}
+.evaluation-control--matrix .evaluation-control-label,
+.evaluation-control--matrix .evaluation-control-context,
+.evaluation-control--matrix .evaluation-hint {
+  display: none;
+}
+.evaluation-mobile {
+  display: none;
+}
+.evaluation-gate {
+  max-width: 760px;
+  padding: 24px;
+  border: 1px solid var(--color-line);
+  border-radius: 10px;
+  background: #fff;
+}
+.evaluation-gate h2 {
+  margin-top: 0;
+}
+.evaluation-gate-list {
+  padding-left: 20px;
+}
+.evaluation-gate-list li {
+  margin: 10px 0;
+}
+.evaluation-gate-list a {
+  margin-left: 10px;
+  color: var(--color-primary);
+  font-weight: 700;
+}
+@media (max-width: 700px) {
+  .evaluation-desktop {
+    display: none;
+  }
+  .evaluation-mobile {
+    display: grid;
+    gap: 16px;
+  }
+  .evaluation-alternative {
+    display: grid;
+    gap: 0;
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid #dce1ea;
+    border-radius: 10px;
+    background: #fff;
+  }
+  .evaluation-alternative h2 {
+    margin: 0;
+    font-size: 1.14rem;
+    overflow-wrap: anywhere;
+  }
+  .evaluation-alternative-status {
+    margin: 5px 0 0;
+    color: var(--color-muted);
+    font-size: 0.8rem;
+  }
+  .evaluation-alternative .evaluation-control {
+    padding: 14px 0;
+    border-bottom: 1px solid #e8eaf1;
+  }
+  .evaluation-alternative .evaluation-control:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+  .evaluation-control-context {
+    display: none;
+  }
+  .evaluation-hint {
+    color: var(--color-muted);
+    font-size: 0.76rem;
+    font-weight: 400;
+  }
+  .evaluation-gate {
+    padding: 18px;
+  }
+}
