@@ -2,7 +2,7 @@
 
 Antes de implementar: se conserva el modelo `evaluations: [{ alternativeId, criterionId, value }]`, la validación de `src/domain/validation.js`, el motor `evaluateProject()` y el repositorio IndexedDB. Las operaciones nuevas serán puras y usarán IDs; la vista entregará proyectos nuevos a `project-state.js` para el guardado automático.
 
-El quinto paso usará `#/project/:id/evaluation` y `workflowStep: 'evaluation'`. La ruta pertenece al router existente. El sexto paso de resultados sigue pendiente y no presentará puntuaciones calculadas en pantalla.
+El quinto paso usa `#/project/:id/evaluation` y `workflowStep: 'evaluation'`. La ruta pertenece al router existente. El sexto paso de resultados se incorporó después en 10E; ver `RESULTS.md`.
 
 La evaluación se habilitará cuando `validateSetup()` acepte la configuración. Un proyecto incompleto conservará sus datos y mostrará los errores de configuración con enlaces a los pasos pertinentes. Las respuestas vacías no se guardarán como cero.
 
@@ -21,4 +21,4 @@ La vista mantiene una representación de escritorio y otra móvil de cada par, s
 
 ## Límites
 
-La vista de resultados sigue pendiente; las puntuaciones del ejemplo se comprueban internamente con `evaluateProject()` en pruebas y no se muestran como resultados funcionales. No se ha realizado una auditoría WCAG 2.2 AA completa.
+La vista de resultados base funciona desde 10E; esta documentación conserva las decisiones de captura de respuestas de 10D. No se ha realizado una auditoría WCAG 2.2 AA completa.

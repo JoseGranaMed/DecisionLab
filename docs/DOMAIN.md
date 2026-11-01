@@ -1,10 +1,10 @@
-# Dominio y motor de evaluación · fases 10A–10D
+# Dominio y motor de evaluación · fases 10A–10E
 
 ## Modelo de datos
 
 El dominio usa objetos y listas de JavaScript que pueden serializarse como JSON. `src/domain/model.js` documenta los tipos con JSDoc y expone `SCHEMA_VERSION = 1` y `createDraftProject({ id, timestamp })`. El llamador proporciona el identificador estable y una fecha ISO; el dominio no depende del reloj, del DOM ni del almacenamiento.
 
-Desde 10C, `Project` puede incluir `workflowStep`; 10D añade el valor `evaluation`. `src/domain/setup.js` contiene operaciones puras para alternativas, criterios y pesos. `src/domain/answers.js` añade operaciones puras para respuestas por par de IDs. Ambas reutilizan la validación y normalización de 10A. Las funciones del motor matemático permanecen separadas de la interfaz.
+Desde 10C, `Project` puede incluir `workflowStep`; 10D añade `evaluation` y 10E `results`. `src/domain/setup.js` contiene operaciones puras para alternativas, criterios y pesos. `src/domain/answers.js` añade operaciones puras para respuestas por par de IDs. Ambas reutilizan la validación y normalización de 10A. Las funciones del motor matemático permanecen separadas de la interfaz.
 
 | Entidad     | Campos                                                                                                                                     |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -48,7 +48,7 @@ Las funciones de `src/domain/index.js` reciben datos y devuelven `{ ok: true, va
 - `compareScores`: distingue empate exacto e igualdad aparente por presentación.
 - `compareScenarios(project, scenarioId)`: devuelve resultados base y alternativos, diferencia de puntuación, cambio de posición y variación de cada aporte. Un `rankChange` positivo significa que la alternativa ascendió.
 
-La vista de evaluación asocia errores a controles y usa el estado de aplicación para persistir en IndexedDB. Las vistas actuales no muestran aún `score` ni `points` del proyecto: resultados queda para 10E. El motor se invoca en pruebas de integración con las respuestas guardadas.
+La vista de evaluación asocia errores a controles y usa el estado de aplicación para persistir en IndexedDB. La vista de resultados invoca `evaluateProject()` con el proyecto vigente y muestra `score`, `rank` y `contributions` calculados. No se guardan como datos derivados. La transformación de presentación y sus límites se documentan en `RESULTS.md`.
 
 ## Operaciones de respuestas · fase 10D
 

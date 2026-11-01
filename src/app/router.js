@@ -12,7 +12,9 @@ export const routeNames = Object.freeze({
 
 export function parseRoute(hash) {
   const path = hash.startsWith('#/') ? hash.slice(2) : '';
-  if (/^project\/[^/]+(?:\/(?:details|alternatives|criteria|weights|evaluation))?$/.test(path))
+  if (
+    /^project\/[^/]+(?:\/(?:details|alternatives|criteria|weights|evaluation|results))?$/.test(path)
+  )
     return 'project';
   return Object.hasOwn(routeNames, path) ? path : path ? 'not-found' : 'dashboard';
 }

@@ -18,6 +18,7 @@ const steps = [
   ['criteria', 'Criterios'],
   ['weights', 'Pesos'],
   ['evaluation', 'Evaluación'],
+  ['results', 'Resultados'],
 ];
 const descriptions = {
   alternatives:
@@ -28,9 +29,10 @@ const descriptions = {
 };
 
 export function stepFromHash(hash) {
-  const match = /^#\/project\/[^/]+(?:\/(details|alternatives|criteria|weights|evaluation))?$/.exec(
-    hash,
-  );
+  const match =
+    /^#\/project\/[^/]+(?:\/(details|alternatives|criteria|weights|evaluation|results))?$/.exec(
+      hash,
+    );
   return match?.[1] ?? 'details';
 }
 
@@ -50,7 +52,7 @@ export function renderWizardStep(step) {
 
 export function renderWizardFooter(step) {
   const index = steps.findIndex(([key]) => key === step);
-  return `<div class="wizard-footer"><a class="btn btn--outline" data-wizard-previous>${index === 0 ? 'Mis comparaciones' : '← Anterior'}</a>${index < steps.length - 1 ? '<a class="btn btn--primary" data-wizard-next>Siguiente →</a>' : '<span class="wizard-future">Los resultados funcionales se incorporarán en la siguiente fase.</span>'}<a class="text-link" href="#/comparisons">Salir del asistente</a></div>${step === 'details' ? '' : '<p id="save-state" class="save-state" role="status" aria-live="polite"></p><p id="save-error" class="save-error" role="alert" hidden></p>'}`;
+  return `<div class="wizard-footer"><a class="btn btn--outline" data-wizard-previous>${index === 0 ? 'Mis comparaciones' : '← Anterior'}</a>${index < steps.length - 1 ? '<a class="btn btn--primary" data-wizard-next>Siguiente →</a>' : ''}<a class="text-link" href="#/comparisons">Salir del asistente</a></div>${step === 'details' ? '' : '<p id="save-state" class="save-state" role="status" aria-live="polite"></p><p id="save-error" class="save-error" role="alert" hidden></p>'}`;
 }
 
 export function mountWizardNavigation(main, id, step) {

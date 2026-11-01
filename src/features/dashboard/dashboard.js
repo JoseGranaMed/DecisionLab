@@ -55,6 +55,10 @@ export function mountDashboard(main, records) {
     question,
     link('Continuar proyecto →', `#/project/${encodeURIComponent(recent.id)}`, 'btn btn--outline'),
   );
+  if (validateProject(recent, { mode: 'complete' }).ok)
+    recentCard.append(
+      link('Ver resultados →', `#/project/${encodeURIComponent(recent.id)}/results`, 'text-link'),
+    );
   const example = document.createElement('article');
   example.className = 'try-card';
   const exampleHeading = document.createElement('h2');

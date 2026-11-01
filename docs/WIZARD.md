@@ -1,6 +1,6 @@
-# Asistente · fase 10D
+# Asistente · fase 10E
 
-Los pasos funcionales son datos generales, alternativas, criterios, pesos y evaluación. El indicador conserva seis pasos; resultados se implementará en 10E. Cada paso tiene URL propia y `workflowStep` recuerda el último abierto. El quinto paso usa `#/project/:id/evaluation`.
+Los seis pasos funcionales son datos generales, alternativas, criterios, pesos, evaluación y resultados. Cada paso tiene URL propia y `workflowStep` recuerda el último abierto. Los dos últimos usan `#/project/:id/evaluation` y `#/project/:id/results`.
 
 ## Datos y validación
 
@@ -9,6 +9,7 @@ Los pasos funcionales son datos generales, alternativas, criterios, pesos y eval
 - Pesos: aceptan cero y otros números no negativos. La proporción visible se calcula con `normalizeWeights` del dominio, sin alterar los pesos introducidos. Una suma cero permite guardar el borrador, pero impide estar listo para evaluación.
 - `validateSetup` aplica la validación completa pertinente a la configuración, sin exigir todavía respuestas de evaluación. Los valores incompletos del borrador son válidos para almacenamiento.
 - Evaluación: solo se abre cuando `validateSetup` confirma nombre, pregunta, de dos a cinco alternativas, de dos a ocho criterios bien configurados y pesos con suma positiva. Si falta algo, el paso conserva el borrador y muestra enlaces de corrección. Las respuestas vacías quedan pendientes; el progreso se calcula con `evaluationProgress`. Ver `EVALUATION.md`.
+- Resultados: exige configuración y todas las respuestas válidas. Un proyecto incompleto conserva sus datos y muestra las acciones de corrección. Uno completo invoca `evaluateProject()` al entrar; después de editar, regresar al paso recalcula desde el proyecto actual. Ver `RESULTS.md`.
 
 ## Edición y persistencia
 
@@ -20,4 +21,4 @@ Un peso vacío puede guardarse en un borrador, pero el resumen pide completarlo 
 
 ## Alcance pendiente
 
-Esta fase no muestra clasificaciones calculadas, gráficos, escenarios interactivos, importación/exportación ni informes. El motor existente calcula en las pruebas de integración, sin convertir el sexto paso en una pantalla funcional.
+Siguen pendientes los escenarios interactivos, importación/exportación e informes. La clasificación, barras y aportes del escenario base ya funcionan; los escenarios guardados en el modelo no tienen editor ni visualización interactiva.

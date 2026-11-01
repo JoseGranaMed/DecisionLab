@@ -7,7 +7,7 @@ test('la ruta vacía abre el resumen y las rutas conocidas son estables', () => 
   assert.equal(parseRoute('#/dashboard'), 'dashboard');
   assert.equal(parseRoute('#/comparisons'), 'comparisons');
   assert.equal(parseRoute('#/project/abc-123'), 'project');
-  for (const step of ['details', 'alternatives', 'criteria', 'weights', 'evaluation'])
+  for (const step of ['details', 'alternatives', 'criteria', 'weights', 'evaluation', 'results'])
     assert.equal(parseRoute(`#/project/abc-123/${step}`), 'project');
   assert.equal(parseRoute('#/new'), 'new');
   assert.equal(parseRoute('#/example'), 'example');

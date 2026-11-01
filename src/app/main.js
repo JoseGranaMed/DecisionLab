@@ -5,6 +5,7 @@ import '../features/demo/demo.css';
 import '../features/projects/projects.css';
 import '../features/wizard/wizard.css';
 import '../features/evaluation/evaluation.css';
+import '../features/results/results.css';
 import { createRouter, routeNames } from './router.js';
 import { createNavigationState } from './navigation-state.js';
 import { createProjectState } from './project-state.js';
@@ -21,6 +22,12 @@ import {
 } from '../features/projects/projects.js';
 import { officialExampleProject } from '../shared/demo/official-project.js';
 import { renderEvaluationPage, mountEvaluation } from '../features/evaluation/evaluation.js';
+import {
+  renderResultsPage,
+  mountResultsPage,
+  renderResultsIndex,
+  mountResultsIndex,
+} from '../features/results/results.js';
 import {
   stepFromHash,
   wizardPath,
@@ -125,13 +132,16 @@ async function renderRoute(route) {
             ? renderProjectEditor()
             : step === 'evaluation'
               ? renderEvaluationPage()
-              : renderWizardStep(step)) +
+              : step === 'results'
+                ? renderResultsPage()
+                : renderWizardStep(step)) +
           renderWizardFooter(step);
         mountWizardNavigation(main, id, step);
         if (step === 'details')
           validateEditor = mountProjectEditor(main, record.project, (fields) =>
             projects.edit(fields),
           );
+        else if (step === 'results') mountResultsPage(main, projects.snapshot().active, id);
         else
           wizardHasInvalid =
             step === 'evaluation'
@@ -139,11 +149,17 @@ async function renderRoute(route) {
               : mountWizardStep(main, projects, step).hasInvalid;
         updateSaveState(main, projects.snapshot());
       }
-    } else if (route === 'dashboard' || route === 'comparisons') {
+    } else if (route === 'dashboard' || route === 'comparisons' || route === 'results') {
       const records = await projects.refresh();
       if (requestId !== renderId) return;
-      main.innerHTML = route === 'dashboard' ? renderDashboard() : renderComparisons();
+      main.innerHTML =
+        route === 'dashboard'
+          ? renderDashboard()
+          : route === 'results'
+            ? renderResultsIndex()
+            : renderComparisons();
       if (route === 'dashboard') mountDashboard(main, records);
+      else if (route === 'results') mountResultsIndex(main, records);
       else mountComparisons(main, records);
     } else main.innerHTML = renderDemoView(route);
   } catch (error) {

@@ -27,6 +27,7 @@ function action(label, actionName, id, className = 'text-link') {
 
 function projectCard(record) {
   const { project } = record;
+  const draft = isDraft(project);
   const article = document.createElement('article');
   article.className = 'saved-project';
   const top = document.createElement('div');
@@ -34,8 +35,8 @@ function projectCard(record) {
   const heading = document.createElement('h2');
   heading.textContent = displayName(project);
   const badge = document.createElement('span');
-  badge.className = `status ${isDraft(project) ? 'status--warn' : 'status--done'}`;
-  badge.textContent = isDraft(project) ? 'Borrador' : 'Completa';
+  badge.className = `status ${draft ? 'status--warn' : 'status--done'}`;
+  badge.textContent = draft ? 'Borrador' : 'Completa';
   top.append(heading, badge);
   const question = document.createElement('p');
   question.textContent = project.question.trim() || 'Añade una pregunta de decisión.';
@@ -44,10 +45,17 @@ function projectCard(record) {
   const actions = document.createElement('div');
   actions.className = 'saved-project-actions';
   actions.append(
-    action(isDraft(project) ? 'Continuar' : 'Abrir', 'open', record.id, 'btn btn--outline'),
+    action(draft ? 'Continuar' : 'Abrir', 'open', record.id, 'btn btn--outline'),
     action('Duplicar', 'duplicate', record.id),
     action('Eliminar', 'delete', record.id, 'text-link text-link--danger'),
   );
+  if (!draft) {
+    const results = document.createElement('a');
+    results.href = `#/project/${encodeURIComponent(record.id)}/results`;
+    results.className = 'text-link';
+    results.textContent = 'Ver resultados';
+    actions.prepend(results);
+  }
   article.append(top, question, updated, actions);
   return article;
 }

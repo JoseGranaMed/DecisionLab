@@ -40,7 +40,7 @@ export function appShell() {
       </nav>
       <div class="mobile-menu" id="mobile-menu" hidden>
         <div class="mobile-menu-title"><b>Más opciones</b><button class="icon-button" id="menu-close" type="button" aria-label="Cerrar menú">×</button></div>
-        <a href="#/results" data-route="results">Resultados de ejemplo</a>
+        <a href="#/results" data-route="results">Resultados</a>
         <a href="#/scenarios" data-route="scenarios">Escenarios</a>
         <a href="#/settings" data-route="settings">Configuración</a>
         <a href="../">Inicio</a>

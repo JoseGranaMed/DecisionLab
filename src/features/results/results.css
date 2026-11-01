@@ -1,0 +1,319 @@
+.results-workspace {
+  min-width: 0;
+}
+.results-title {
+  margin: 0 0 30px;
+  max-width: 860px;
+}
+.results-kicker {
+  margin: 0 0 9px;
+  color: var(--color-teal);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.results-title h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.85rem, 3vw, 2.65rem);
+  overflow-wrap: anywhere;
+}
+.results-question {
+  margin: 0 0 9px;
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+.results-date {
+  color: var(--color-muted);
+}
+.results-incomplete {
+  max-width: 740px;
+  padding: 23px;
+  border: 1px solid var(--color-line);
+  border-radius: 10px;
+  background: #fff;
+}
+.results-incomplete h2 {
+  margin: 0 0 10px;
+  font-size: 1.4rem;
+}
+.results-incomplete p {
+  margin-bottom: 18px;
+  overflow-wrap: anywhere;
+}
+.results-errors {
+  padding-left: 20px;
+}
+.results-errors li {
+  margin: 12px 0;
+  overflow-wrap: anywhere;
+}
+.results-errors a {
+  display: inline-block;
+  margin-left: 10px;
+}
+.results-summary {
+  padding: 22px 0 24px;
+  border-top: 2px solid var(--color-primary);
+  border-bottom: 1px solid var(--color-line);
+}
+.results-summary h2 {
+  max-width: 850px;
+  margin: 0;
+  font-size: clamp(1.45rem, 2.4vw, 2.15rem);
+  overflow-wrap: anywhere;
+}
+.results-summary-score {
+  margin: 10px 0 7px;
+  color: var(--color-primary);
+  font: 800 2rem var(--font-heading);
+  font-variant-numeric: tabular-nums;
+}
+.results-summary-context {
+  max-width: 850px;
+  margin: 0;
+  font-size: 0.88rem;
+}
+.results-ranking,
+.results-breakdowns,
+.results-comparison {
+  margin-top: 32px;
+}
+.results-ranking h2,
+.results-breakdowns h2,
+.results-comparison h2 {
+  margin: 0 0 6px;
+  font-size: 1.5rem;
+}
+.results-section-intro {
+  max-width: 850px;
+  margin: 0 0 16px;
+  font-size: 0.86rem;
+}
+.results-ranking-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--color-line);
+}
+.results-ranking-item {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-line);
+}
+.results-ranking-line {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 10px;
+}
+.results-rank {
+  color: var(--color-teal);
+  font-weight: 800;
+}
+.results-name {
+  overflow-wrap: anywhere;
+}
+.results-score {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.results-bar-track {
+  width: calc(100% - 46px);
+  height: 10px;
+  margin: 10px 0 0 46px;
+  overflow: hidden;
+  background: #e4e8e9;
+  border-radius: 2px;
+}
+.results-bar {
+  display: block;
+  height: 100%;
+  background: var(--color-primary);
+}
+.results-difference,
+.results-precision-note {
+  margin: 7px 0 0 46px;
+  font-size: 0.8rem;
+}
+.results-precision-note {
+  color: #70521b;
+}
+.results-breakdown {
+  border-top: 1px solid var(--color-line);
+}
+.results-breakdown:last-child {
+  border-bottom: 1px solid var(--color-line);
+}
+.results-breakdown summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 54px;
+  padding: 15px 4px;
+  cursor: pointer;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.results-breakdown summary:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+.results-breakdown summary strong {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+.results-breakdown-body {
+  padding: 5px 0 22px;
+}
+.results-criteria {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 24px;
+}
+.results-criterion {
+  min-width: 0;
+  padding: 15px 0;
+  border-top: 1px solid #e7eaed;
+}
+.results-criterion h4 {
+  margin: 0 0 5px;
+  font-size: 0.94rem;
+  overflow-wrap: anywhere;
+}
+.results-criterion-context {
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+}
+.results-contribution-data {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+}
+.results-contribution-data > div {
+  min-width: 0;
+}
+.results-contribution-data dt {
+  color: var(--color-muted);
+  font-size: 0.72rem;
+}
+.results-contribution-data dd {
+  margin: 3px 0 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+.results-contribution-data > div:last-child dd {
+  color: var(--color-primary);
+}
+.results-comparison {
+  max-width: 900px;
+  padding: 22px 0;
+  border-top: 1px solid var(--color-line);
+}
+.results-comparison p {
+  max-width: 780px;
+  font-size: 0.86rem;
+  overflow-wrap: anywhere;
+}
+.results-delta-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.results-delta-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 9px 0;
+  border-bottom: 1px solid #e7eaed;
+  font-size: 0.84rem;
+}
+.results-delta-list strong {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+.results-delta-list span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.results-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 22px;
+}
+.results-index {
+  max-width: 940px;
+}
+.results-index-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 20px;
+  padding: 18px 0;
+  border-top: 1px solid var(--color-line);
+}
+.results-index-item h2 {
+  margin: 0;
+  font-size: 1.08rem;
+  overflow-wrap: anywhere;
+}
+.results-index-item p {
+  grid-column: 1;
+  margin: 0;
+  font-size: 0.84rem;
+  overflow-wrap: anywhere;
+}
+.results-index-item small {
+  grid-column: 1;
+  color: var(--color-muted);
+}
+.results-index-item a {
+  grid-column: 2;
+  grid-row: 1 / 4;
+  align-self: center;
+}
+@media (max-width: 1100px) {
+  .results-criteria {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 700px) {
+  .results-title h1 {
+    font-size: 1.75rem;
+  }
+  .results-summary-score {
+    font-size: 1.7rem;
+  }
+  .results-ranking-line {
+    grid-template-columns: 26px minmax(0, 1fr);
+  }
+  .results-score {
+    grid-column: 2;
+  }
+  .results-bar-track,
+  .results-difference,
+  .results-precision-note {
+    width: calc(100% - 36px);
+    margin-left: 36px;
+  }
+  .results-contribution-data {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .results-contribution-data > div:last-child {
+    grid-column: 1 / -1;
+  }
+  .results-index-item {
+    grid-template-columns: 1fr;
+  }
+  .results-delta-list li {
+    flex-wrap: wrap;
+  }
+  .results-index-item a {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: start;
+    margin-top: 12px;
+  }
+}
