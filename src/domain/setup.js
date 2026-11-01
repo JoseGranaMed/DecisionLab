@@ -23,7 +23,7 @@ function move(items, id, direction) {
 export function validateSetup(project) {
   const draft = validateProject(project, { mode: 'draft' });
   if (!draft.ok) return draft;
-  const errors = validateProject(project, { mode: 'complete' }).errors.filter(
+  const errors = validateProject(project, { mode: 'complete', scenarioMode: 'base' }).errors.filter(
     (error) => !error.path.startsWith('evaluations'),
   );
   if (project.alternatives.length > 5)

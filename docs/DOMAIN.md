@@ -30,7 +30,7 @@ Las operaciones usan `Number` de JavaScript y suma compensada para reducir pérd
 
 ## Validación y contratos
 
-`validateProject(project, { mode: 'draft' | 'complete' })` devuelve `{ ok, errors }`. Un borrador permite nombres, detalles de criterios y respuestas pendientes, pero requiere una estructura reconocible y rechaza valores suministrados mal formados, IDs duplicados y referencias rotas. El modo `complete` exige al menos dos alternativas, un criterio, todas las respuestas, pesos válidos con suma positiva y escenarios completos. Cada error incluye `{ path, code, message }`, por ejemplo:
+`validateProject(project, { mode: 'draft' | 'complete', scenarioMode: 'all' | 'base' })` devuelve `{ ok, errors }`. Un borrador permite nombres, detalles de criterios y respuestas pendientes, pero requiere una estructura reconocible y rechaza valores suministrados mal formados, IDs duplicados y referencias rotas. El modo `complete` exige al menos dos alternativas, un criterio, todas las respuestas y pesos base válidos. `scenarioMode: 'all'` (valor predeterminado) exige también escenarios alternativos completos. `scenarioMode: 'base'` conserva sus comprobaciones estructurales, pero permite consultar la base si una suma alternativa quedó en cero tras cambiar criterios. Cada error incluye `{ path, code, message }`, por ejemplo:
 
 ```js
 {
@@ -47,6 +47,7 @@ Las funciones de `src/domain/index.js` reciben datos y devuelven `{ ok: true, va
 - `evaluateProject(project, { scenarioId, displayDecimals })`: devuelve pesos, resultados ordenados, posiciones y aportes. `scenarioId` omitido utiliza la base.
 - `compareScores`: distingue empate exacto e igualdad aparente por presentación.
 - `compareScenarios(project, scenarioId)`: devuelve resultados base y alternativos, diferencia de puntuación, cambio de posición y variación de cada aporte. Un `rankChange` positivo significa que la alternativa ascendió.
+- `createScenario`, `updateScenario`, `resetScenarioWeights`, `removeScenario`: gestionan una sola alternativa de pesos. `updateScenario` valida y aplica nombre y mapa completo de pesos en una operación atómica. No editan los pesos base.
 
 La vista de evaluación asocia errores a controles y usa el estado de aplicación para persistir en IndexedDB. La vista de resultados invoca `evaluateProject()` con el proyecto vigente y muestra `score`, `rank` y `contributions` calculados. No se guardan como datos derivados. La transformación de presentación y sus límites se documentan en `RESULTS.md`.
 
@@ -81,12 +82,13 @@ if (base.ok && comparison.ok) {
 
 ## Módulos
 
-| Archivo            | Responsabilidad                                              |
-| ------------------ | ------------------------------------------------------------ |
-| `model.js`         | Tipos documentados, versión de esquema y borrador inicial.   |
-| `validation.js`    | Errores estructurados para borrador y comparación completa.  |
-| `normalization.js` | Escalas de conveniencia y numérica; proporciones de pesos.   |
-| `evaluation.js`    | Aportes, puntuaciones, clasificación y detección de empates. |
-| `answers.js`       | Alta, sustitución, eliminación y progreso de respuestas.     |
-| `scenarios.js`     | Comparación de pesos alternativos y explicación de cambios.  |
-| `index.js`         | API pública del dominio.                                     |
+| Archivo                  | Responsabilidad                                                            |
+| ------------------------ | -------------------------------------------------------------------------- |
+| `model.js`               | Tipos documentados, versión de esquema y borrador inicial.                 |
+| `validation.js`          | Errores estructurados para borrador y comparación completa.                |
+| `normalization.js`       | Escalas de conveniencia y numérica; proporciones de pesos.                 |
+| `evaluation.js`          | Aportes, puntuaciones, clasificación y detección de empates.               |
+| `answers.js`             | Alta, sustitución, eliminación y progreso de respuestas.                   |
+| `scenarios.js`           | Comparación de pesos alternativos y explicación de cambios.                |
+| `scenario-operations.js` | Alta, actualización atómica, restablecimiento y eliminación del escenario. |
+| `index.js`               | API pública del dominio.                                                   |

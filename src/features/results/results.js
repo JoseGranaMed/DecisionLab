@@ -263,6 +263,11 @@ export function mountResultsPage(main, project, id) {
   renderComparison(workspace, prepared.comparison);
   const actions = node('div', 'results-actions');
   actions.append(
+    link(
+      'Comparar escenarios',
+      `#/project/${encodeURIComponent(id)}/scenarios`,
+      'btn btn--primary',
+    ),
     link('Editar evaluación', wizardPath(id, 'evaluation')),
     link('Cambiar pesos', wizardPath(id, 'weights'), 'text-link'),
   );

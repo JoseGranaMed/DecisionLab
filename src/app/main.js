@@ -6,6 +6,7 @@ import '../features/projects/projects.css';
 import '../features/wizard/wizard.css';
 import '../features/evaluation/evaluation.css';
 import '../features/results/results.css';
+import '../features/scenarios/scenarios.css';
 import { createRouter, routeNames } from './router.js';
 import { createNavigationState } from './navigation-state.js';
 import { createProjectState } from './project-state.js';
@@ -28,6 +29,12 @@ import {
   renderResultsIndex,
   mountResultsIndex,
 } from '../features/results/results.js';
+import {
+  renderScenariosPage,
+  mountScenariosPage,
+  renderScenariosIndex,
+  mountScenariosIndex,
+} from '../features/scenarios/scenarios.js';
 import {
   stepFromHash,
   wizardPath,
@@ -53,7 +60,10 @@ function setPage(route) {
   const name = routeNames[route] ?? 'Página no encontrada';
   root.querySelector('#route-title').textContent = name;
   document.title = `${name} — DecisionLab`;
-  syncActiveNavigation(root, route === 'project' ? 'comparisons' : route);
+  syncActiveNavigation(
+    root,
+    route === 'project' ? 'comparisons' : route === 'project-scenarios' ? 'scenarios' : route,
+  );
   shell.closeMenu();
   main.focus({ preventScroll: true });
   window.scrollTo(0, 0);
@@ -109,11 +119,16 @@ async function renderRoute(route) {
         window.location.hash = `#/project/${encodeURIComponent(record.id)}`;
       return;
     }
-    if (route === 'project') {
+    if (route === 'project' || route === 'project-scenarios') {
       const record = await projects.open(selectedProjectId(), () => requestId === renderId);
       if (requestId !== renderId) return;
       if (!record) {
         showError('Proyecto no encontrado', 'El proyecto solicitado no existe en este navegador.');
+      } else if (route === 'project-scenarios') {
+        main.innerHTML = renderScenariosPage();
+        mountScenariosPage(main, projects, record.id);
+        wizardHasInvalid = () => main.dataset.scenarioInvalid === 'true';
+        updateSaveState(main, projects.snapshot());
       } else {
         const id = record.id;
         const step = stepFromHash(nextHash);
@@ -149,7 +164,12 @@ async function renderRoute(route) {
               : mountWizardStep(main, projects, step).hasInvalid;
         updateSaveState(main, projects.snapshot());
       }
-    } else if (route === 'dashboard' || route === 'comparisons' || route === 'results') {
+    } else if (
+      route === 'dashboard' ||
+      route === 'comparisons' ||
+      route === 'results' ||
+      route === 'scenarios'
+    ) {
       const records = await projects.refresh();
       if (requestId !== renderId) return;
       main.innerHTML =
@@ -157,9 +177,12 @@ async function renderRoute(route) {
           ? renderDashboard()
           : route === 'results'
             ? renderResultsIndex()
-            : renderComparisons();
+            : route === 'scenarios'
+              ? renderScenariosIndex()
+              : renderComparisons();
       if (route === 'dashboard') mountDashboard(main, records);
       else if (route === 'results') mountResultsIndex(main, records);
+      else if (route === 'scenarios') mountScenariosIndex(main, records);
       else mountComparisons(main, records);
     } else main.innerHTML = renderDemoView(route);
   } catch (error) {
@@ -215,7 +238,9 @@ window.addEventListener('beforeunload', (event) => {
 
 function createRouterRoute() {
   return window.location.hash.startsWith('#/project/')
-    ? 'project'
+    ? window.location.hash.endsWith('/scenarios')
+      ? 'project-scenarios'
+      : 'project'
     : window.location.hash.slice(2) || 'dashboard';
 }
 

@@ -5,6 +5,12 @@ export { compareScores, evaluateProject } from './evaluation.js';
 export { getEvaluation, setEvaluation, removeEvaluation, evaluationProgress } from './answers.js';
 export { compareScenarios } from './scenarios.js';
 export {
+  createScenario,
+  updateScenario,
+  resetScenarioWeights,
+  removeScenario,
+} from './scenario-operations.js';
+export {
   validateSetup,
   addAlternative,
   updateAlternative,

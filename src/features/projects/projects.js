@@ -3,7 +3,8 @@ import { validateProject } from '../../domain/validation.js';
 const title = (name, description, action = '') =>
   `<div class="page-title"><div><h1>${name}</h1><p>${description}</p></div>${action}</div>`;
 const displayName = (project) => project.name.trim() || 'Sin título';
-const isDraft = (project) => !validateProject(project, { mode: 'complete' }).ok;
+const isDraft = (project) =>
+  !validateProject(project, { mode: 'complete', scenarioMode: 'base' }).ok;
 const dateText = (date) =>
   new Intl.DateTimeFormat('es-PE', { dateStyle: 'medium' }).format(new Date(date));
 

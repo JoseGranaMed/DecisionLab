@@ -9,7 +9,7 @@ html {
 body {
   margin: 0;
   color: var(--color-ink);
-  font: 15px/1.5 var(--font-body);
+  font: 0.9375rem/1.5 var(--font-body);
 }
 button,
 input {

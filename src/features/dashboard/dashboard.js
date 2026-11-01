@@ -36,15 +36,17 @@ export function mountDashboard(main, records) {
   }
   const recent = records[0].project;
   const draftCount = records.filter(
-    ({ project }) => !validateProject(project, { mode: 'complete' }).ok,
+    ({ project }) => !validateProject(project, { mode: 'complete', scenarioMode: 'base' }).ok,
   ).length;
   const grid = document.createElement('div');
   grid.className = 'dashboard-summary';
   const recentCard = document.createElement('article');
   recentCard.className = 'feature-project';
   const badge = document.createElement('span');
-  badge.className = `status ${validateProject(recent, { mode: 'complete' }).ok ? 'status--done' : 'status--warn'}`;
-  badge.textContent = validateProject(recent, { mode: 'complete' }).ok ? 'Completa' : 'Borrador';
+  badge.className = `status ${validateProject(recent, { mode: 'complete', scenarioMode: 'base' }).ok ? 'status--done' : 'status--warn'}`;
+  badge.textContent = validateProject(recent, { mode: 'complete', scenarioMode: 'base' }).ok
+    ? 'Completa'
+    : 'Borrador';
   const heading = document.createElement('h2');
   heading.textContent = recent.name.trim() || 'Sin título';
   const question = document.createElement('p');
@@ -55,7 +57,7 @@ export function mountDashboard(main, records) {
     question,
     link('Continuar proyecto →', `#/project/${encodeURIComponent(recent.id)}`, 'btn btn--outline'),
   );
-  if (validateProject(recent, { mode: 'complete' }).ok)
+  if (validateProject(recent, { mode: 'complete', scenarioMode: 'base' }).ok)
     recentCard.append(
       link('Ver resultados →', `#/project/${encodeURIComponent(recent.id)}/results`, 'text-link'),
     );

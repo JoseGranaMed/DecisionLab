@@ -1,4 +1,4 @@
-# Asistente · fase 10E
+# Asistente · fases 10E–10F
 
 Los seis pasos funcionales son datos generales, alternativas, criterios, pesos, evaluación y resultados. Cada paso tiene URL propia y `workflowStep` recuerda el último abierto. Los dos últimos usan `#/project/:id/evaluation` y `#/project/:id/results`.
 
@@ -21,4 +21,4 @@ Un peso vacío puede guardarse en un borrador, pero el resumen pide completarlo 
 
 ## Alcance pendiente
 
-Siguen pendientes los escenarios interactivos, importación/exportación e informes. La clasificación, barras y aportes del escenario base ya funcionan; los escenarios guardados en el modelo no tienen editor ni visualización interactiva.
+Los escenarios interactivos se abren desde Resultados o la navegación general, fuera de los seis pasos. Ver `SCENARIOS.md`. Siguen pendientes importación, exportación e informes.

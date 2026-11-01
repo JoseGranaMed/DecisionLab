@@ -4,6 +4,7 @@ import { icon } from './icons.js';
 const mainItems = [
   { route: 'dashboard', label: 'Resumen', icon: 'overview' },
   { route: 'comparisons', label: 'Mis comparaciones', icon: 'list' },
+  { route: 'scenarios', label: 'Escenarios', icon: 'chart' },
   { route: 'new', label: 'Nueva comparación', icon: 'plus', prominent: true },
 ];
 

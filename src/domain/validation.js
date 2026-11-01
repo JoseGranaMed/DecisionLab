@@ -64,16 +64,22 @@ function isoDate(value) {
  * Validates a JSON-safe project. Draft mode permits missing names, criteria details and answers,
  * but rejects malformed supplied values, duplicate IDs and broken references.
  * @param {import('./model.js').Project} project
- * @param {{ mode?: 'draft' | 'complete' }} options
+ * @param {{ mode?: 'draft' | 'complete', scenarioMode?: 'all' | 'base' }} options
  * @returns {{ ok: boolean, errors: Array<{path: string, code: string, message: string}> }}
  */
 export function validateProject(project, options = {}) {
-  const { mode = 'complete' } = options ?? {};
+  const { mode = 'complete', scenarioMode = 'all' } = options ?? {};
   const errors = [];
   if (mode !== 'draft' && mode !== 'complete') {
     return {
       ok: false,
       errors: [issue('mode', 'invalid-mode', 'Modo de validación desconocido.')],
+    };
+  }
+  if (scenarioMode !== 'all' && scenarioMode !== 'base') {
+    return {
+      ok: false,
+      errors: [issue('scenarioMode', 'invalid-mode', 'Modo de escenario desconocido.')],
     };
   }
   if (!record(project)) {
@@ -283,7 +289,7 @@ export function validateProject(project, options = {}) {
         );
       }
     }
-    requiredText(scenario.name, `${path}.name`, errors, complete);
+    requiredText(scenario.name, `${path}.name`, errors, complete && scenarioMode === 'all');
     if (!record(scenario.weights)) {
       errors.push(
         issue(
@@ -303,7 +309,7 @@ export function validateProject(project, options = {}) {
       if (numberField(weight, `${path}.weights.${criterionId}`, errors, { nonnegative: true }))
         sum += weight;
     }
-    if (complete) {
+    if (complete && scenarioMode === 'all') {
       for (const criterion of criteria) {
         if (record(criterion) && !Object.hasOwn(scenario.weights, criterion.id))
           errors.push(

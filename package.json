@@ -18,6 +18,7 @@
     "capture:wizard": "node scripts/capture-wizard.mjs",
     "capture:evaluation": "node scripts/capture-evaluation.mjs",
     "capture:results": "node scripts/capture-results.mjs",
+    "capture:scenarios": "node scripts/capture-scenarios.mjs",
     "check": "npm run lint && npm run format:check && npm run test && npm run build"
   },
   "devDependencies": {

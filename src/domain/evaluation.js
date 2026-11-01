@@ -32,7 +32,10 @@ export function evaluateProject(project, options = {}) {
       'La precisión de presentación debe ser un entero de 0 a 10.',
     );
   }
-  const validation = validateProject(project, { mode: 'complete' });
+  const validation = validateProject(project, {
+    mode: 'complete',
+    scenarioMode: scenarioId === null ? 'base' : 'all',
+  });
   if (!validation.ok) return validation;
   const scenario =
     scenarioId === null ? null : project.scenarios.find((item) => item.id === scenarioId);

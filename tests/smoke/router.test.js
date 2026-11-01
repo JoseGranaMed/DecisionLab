@@ -12,6 +12,8 @@ test('la ruta vacía abre el resumen y las rutas conocidas son estables', () => 
   assert.equal(parseRoute('#/new'), 'new');
   assert.equal(parseRoute('#/example'), 'example');
   assert.equal(parseRoute('#/results'), 'results');
+  assert.equal(parseRoute('#/scenarios'), 'scenarios');
+  assert.equal(parseRoute('#/project/abc-123/scenarios'), 'project-scenarios');
 });
 
 test('una ruta inexistente no abre otra vista por accidente', () => {

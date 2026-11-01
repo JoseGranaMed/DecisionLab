@@ -6,9 +6,9 @@ import {
 } from '../../domain/answers.js';
 import { validateSetup } from '../../domain/setup.js';
 import { wizardPath } from '../wizard/wizard.js';
+import { parseInputNumber, ambiguousNumber } from '../../shared/numbers.js';
 
 const keyOf = (alternativeId, criterionId) => JSON.stringify([alternativeId, criterionId]);
-const ambiguousNumber = (text) => /^[+-]?[1-9]\d{0,2}[.,]\d{3}$/.test(text);
 
 export function renderEvaluationPage() {
   return `<div class="page-title"><div><h1>Evaluación</h1><p>Registra una respuesta por cada alternativa y criterio. Puedes dejar respuestas pendientes y continuar después.</p></div></div><section id="evaluation-workspace" class="evaluation-workspace"></section>`;
@@ -16,10 +16,7 @@ export function renderEvaluationPage() {
 
 /** One decimal separator is accepted; thousands separators and ambiguous mixed forms are rejected. */
 export function parseEvaluationNumber(raw) {
-  const text = raw.trim();
-  if (!/^[+-]?(?:\d+(?:[.,]\d+)?|[.,]\d+)$/.test(text)) return Number.NaN;
-  if (ambiguousNumber(text)) return Number.NaN;
-  return Number(text.replace(',', '.'));
+  return parseInputNumber(raw);
 }
 
 function criterionHint(criterion) {
