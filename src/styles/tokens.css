@@ -1,0 +1,17 @@
+:root {
+  --color-primary: #363b82;
+  --color-primary-strong: #292e68;
+  --color-teal: #0f766e;
+  --color-amber: #b45309;
+  --color-ink: #202a34;
+  --color-muted: #536273;
+  --color-soft: #69737b;
+  --color-canvas: #fbfaf7;
+  --color-workspace: #f8f8f5;
+  --color-surface: #fff;
+  --color-line: #d9deda;
+  --color-focus: #2363a5;
+  --font-heading: Manrope, Inter, system-ui, sans-serif;
+  --font-body: Inter, system-ui, Arial, sans-serif;
+  --content-width: 1220px;
+}

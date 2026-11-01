@@ -1,0 +1,135 @@
+.demo-note {
+  margin: -10px 0 18px;
+  color: var(--color-muted);
+  font-size: 0.76rem;
+}
+.demo-list {
+  display: grid;
+  gap: 10px;
+}
+.demo-list article,
+.demo-panel {
+  padding: 23px;
+  border: 1px solid #e0e4ee;
+  border-radius: 12px;
+  background: #fff;
+}
+.demo-list article {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.demo-list h2 {
+  margin: 10px 0 4px;
+  font-size: 1.1rem;
+}
+.demo-list p {
+  margin: 0;
+  font-size: 0.8rem;
+}
+.demo-panel {
+  max-width: 900px;
+}
+.demo-panel h2 {
+  margin: 10px 0;
+  font-size: 1.45rem;
+}
+.demo-panel p {
+  font-size: 0.86rem;
+}
+.demo-overline {
+  color: var(--color-teal);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+.demo-step {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+}
+.demo-step strong {
+  color: var(--color-primary);
+}
+.ranking-list {
+  display: grid;
+  gap: 18px;
+  margin: 25px 0;
+}
+.ranking-row {
+  display: grid;
+  grid-template-columns: 20px minmax(115px, 1fr) minmax(70px, 1.5fr) 55px;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.78rem;
+}
+.ranking-row > span {
+  color: var(--color-muted);
+}
+.ranking-row > strong {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.ranking-track {
+  height: 8px;
+  background: #e8eaf2;
+  overflow: hidden;
+}
+.ranking-track i {
+  display: block;
+  height: 100%;
+  background: var(--color-primary);
+}
+.ranking-row:nth-child(2) .ranking-track i {
+  background: var(--color-teal);
+}
+.ranking-row:nth-child(3) .ranking-track i {
+  background: #66769a;
+}
+.scenario-sample {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin: 25px 0;
+}
+.scenario-sample > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 15px;
+  background: #f4f5f3;
+}
+.scenario-sample small {
+  color: var(--color-muted);
+}
+.scenario-sample strong {
+  color: var(--color-primary);
+  font-size: 1.15rem;
+}
+.scenario-sample span {
+  font-size: 0.82rem;
+}
+@media (max-width: 700px) {
+  .demo-list article {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .ranking-row {
+    grid-template-columns: 20px minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+  .ranking-track {
+    grid-column: 2 / -1;
+    grid-row: 2;
+  }
+  .ranking-row > strong {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .scenario-sample {
+    grid-template-columns: 1fr;
+  }
+}
