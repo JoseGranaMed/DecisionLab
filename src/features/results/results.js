@@ -255,6 +255,7 @@ export function mountResultsPage(main, project, id) {
   const prepared = prepareResults(project);
   if (prepared.kind !== 'ready') {
     renderIncomplete(workspace, prepared, id);
+    workspace.append(link('Ver estado del informe', `#/project/${encodeURIComponent(id)}/report`));
     return;
   }
   renderSummary(workspace, prepared);
@@ -263,6 +264,11 @@ export function mountResultsPage(main, project, id) {
   renderComparison(workspace, prepared.comparison);
   const actions = node('div', 'results-actions');
   actions.append(
+    link(
+      'Ver informe imprimible',
+      `#/project/${encodeURIComponent(id)}/report`,
+      'btn btn--outline',
+    ),
     link(
       'Comparar escenarios',
       `#/project/${encodeURIComponent(id)}/scenarios`,

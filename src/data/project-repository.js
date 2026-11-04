@@ -1,6 +1,7 @@
 import { createDraftProject, SCHEMA_VERSION } from '../domain/model.js';
 import { validateProject } from '../domain/validation.js';
 import { StorageError, transact, requestResult } from './indexeddb.js';
+import { planImport } from './backup-format.js';
 
 function validId(id) {
   if (typeof id !== 'string' || !id.trim())
@@ -150,6 +151,23 @@ export function createProjectRepository({
     });
   }
 
+  /** One transaction for the entire validated backup; no existing record is replaced. */
+  async function importProjects(projects, { mode = 'copy' } = {}) {
+    const input = projects.map(checkedProject);
+    return run('readwrite', async (store) => {
+      const existing = (await requestResult(store.getAll())).map(checkedRecord);
+      const plan = planImport(
+        input,
+        existing.map((record) => record.id),
+        { mode, idFactory },
+      );
+      const records = plan.map(({ project }) => ({ id: project.id, revision: 1, project }));
+      const requests = records.map((record) => store.add(record));
+      await Promise.all(requests.map(requestResult));
+      return plan.map(({ sourceId, project, copied }) => ({ sourceId, id: project.id, copied }));
+    });
+  }
+
   return {
     createProject,
     getProject,
@@ -157,5 +175,6 @@ export function createProjectRepository({
     updateProject,
     deleteProject,
     duplicateProject,
+    importProjects,
   };
 }

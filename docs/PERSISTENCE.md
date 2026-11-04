@@ -24,6 +24,7 @@ No se creó un índice secundario: la lista completa es pequeña en esta fase y 
 | `updateProject(project, expectedRevision)`                  | Valida el borrador, compara la revisión dentro de una transacción, incrementa la revisión y devuelve el registro nuevo. |
 | `deleteProject(id, expectedRevision?)`                      | Elimina en una transacción y devuelve `true`; si no existe, `false`.                                                    |
 | `duplicateProject(id)`                                      | Clona el proyecto en una transacción y devuelve la copia.                                                               |
+| `importProjects(projects, { mode })`                        | Valida y añade el conjunto en una única transacción; nunca reemplaza proyectos existentes.                              |
 
 Antes de escribir se ejecuta `validateProject(project, { mode: 'draft' })`. Esto permite nombres, criterios o evaluaciones pendientes, pero rechaza referencias rotas, IDs duplicados, valores mal formados y rangos inconsistentes. La validación completa de la fase 10A sigue siendo la condición para calcular resultados. El repositorio no almacena puntuaciones ni clasificaciones.
 
@@ -45,4 +46,4 @@ Desde 10C, el proyecto puede incluir `workflowStep` con `details`, `alternatives
 
 Una futura modificación incompatible incrementará la versión de IndexedDB y aplicará su migración en `onupgradeneeded`; el proyecto conservará además `schemaVersion` para validar la forma de cada registro. Esta fase no inventa migraciones para versiones que aún no existen. Una versión de base más reciente produce un error explícito y no se sobrescribe. Un proyecto con esquema más reciente tampoco se interpreta como versión 1.
 
-El almacenamiento pertenece a este navegador y origen. Puede perderse si se borran los datos del sitio, se usa navegación privada o el navegador libera espacio. No hay cuenta, sincronización entre equipos ni respaldo automático. Exportar e importar copias queda para otra fase. Si falla el guardado, los cambios en memoria se perderán al cerrar la pestaña; la interfaz lo indica y no los presenta como protegidos.
+El almacenamiento pertenece a este navegador y origen. Puede perderse si se borran los datos del sitio, se usa navegación privada o el navegador libera espacio. No hay cuenta, sincronización entre equipos ni respaldo automático. Exportar e importar copias es una acción manual documentada en `TRANSFER.md`. Si falla el guardado, los cambios en memoria se perderán al cerrar la pestaña; la interfaz lo indica y no los presenta como protegidos.

@@ -1,6 +1,6 @@
 # DecisionLab
 
-Aplicación frontend para comparar alternativas mediante criterios y pesos. Permite crear, buscar, editar, duplicar y eliminar proyectos locales. El asistente registra la configuración y las respuestas de un proyecto real, calcula resultados, clasifica alternativas y explica sus puntuaciones. También permite simular un cambio de prioridades con un escenario alternativo.
+Aplicación frontend para comparar alternativas mediante criterios y pesos. Permite crear, buscar, editar, duplicar y eliminar proyectos locales. El asistente registra la configuración y las respuestas de un proyecto real, calcula resultados, clasifica alternativas y explica sus puntuaciones. También permite simular un cambio de prioridades, respaldar y recuperar proyectos mediante JSON e imprimir informes.
 
 ## Tecnologías
 
@@ -29,6 +29,10 @@ Resultados usa `evaluateProject()` del dominio: muestra posiciones, barras de 0 
 
 Desde Resultados se abre «Comparar escenarios». `#/scenarios` permite elegir un proyecto guardado y `#/project/:id/scenarios` muestra su escenario alternativo o permite crearlo. El MVP admite uno por proyecto. Crear copia los pesos base; después se pueden editar nombre y pesos, restablecerlos o eliminar el escenario. Las puntuaciones, posiciones y variaciones de aportes se calculan con `compareScenarios()` y no se guardan. Las ediciones temporalmente inválidas permanecen en el formulario y no sustituyen la última versión válida; se advierte antes de salir. Cambiar prioridades no cambia las respuestas ni significa que una alternativa haya mejorado. Ver `docs/SCENARIOS.md`.
 
+En Configuración (`#/settings`) puedes exportar un proyecto o todos los proyectos a JSON. Selecciona un archivo para recuperarlo: se valida y presenta una vista previa antes de confirmar. Por defecto se importan copias independientes; también puedes conservar los identificadores libres y copiar solo los conflictos. Nunca se reemplazan proyectos existentes. Se recuperan borradores, respuestas, pesos, progreso y escenarios, y los resultados se recalculan al abrir. El respaldo es manual, queda en el dispositivo que elijas y no se sincroniza. Ver `docs/TRANSFER.md`.
+
+Desde Resultados, «Ver informe» abre `#/project/:id/report`. El informe incluye configuración, respuestas, clasificación y desglose; añade el escenario alternativo cuando es válido. «Imprimir / Guardar como PDF» abre la impresión del navegador, donde puedes elegir impresora o PDF. Un proyecto incompleto muestra pendientes y no presenta una clasificación definitiva. Ver `docs/REPORT.md`.
+
 ## Verificación
 
 ```powershell
@@ -38,20 +42,21 @@ npm run test:e2e
 npm run capture:evaluation
 npm run capture:results
 npm run capture:scenarios
+npm run capture:transfer-report
 ```
 
-`check` ejecuta ESLint, Prettier, Vitest y compila ambas entradas HTML. Playwright cubre operaciones reales, persistencia, navegación y seis anchos de pantalla. Las capturas quedan en `docs/screenshots/`. También se conservan los comandos de captura de fases anteriores. Consulte `docs/VERIFICATION-10F.md` para evidencia y límites de esta fase.
+`check` ejecuta ESLint, Prettier, Vitest y compila ambas entradas HTML. Playwright cubre operaciones reales, persistencia, navegación y seis anchos de pantalla. Las capturas quedan en `docs/screenshots/`. También se conservan los comandos de captura de fases anteriores. Consulta `docs/VERIFICATION-10G.md` para evidencia y límites de esta fase.
 
 ## Estructura
 
 - `src/domain`: modelo, validación, operaciones puras de configuración y respuestas, normalización, motor de evaluación y escenarios. Ver `docs/DOMAIN.md` y `docs/EVALUATION.md`.
-- `src/data`: conexión y repositorio IndexedDB. Ver `docs/PERSISTENCE.md`.
+- `src/data`: conexión, repositorio IndexedDB y formato de respaldo. Ver `docs/PERSISTENCE.md` y `docs/TRANSFER.md`.
 - `src/app`: rutas, estado del proyecto y shell del espacio de trabajo.
-- `src/features/projects`, `wizard`, `evaluation`, `results` y `scenarios`: vistas de proyectos, configuración, respuestas, resultados y simulación de prioridades.
+- `src/features/projects`, `wizard`, `evaluation`, `results`, `scenarios`, `transfer` y `report`: vistas de proyectos, configuración, respuestas, resultados, simulación, respaldos e informe.
 - `src/features/dashboard` y `demo`: resumen de proyectos y vista de configuración.
 - `src/landing`, `src/shared` y `src/styles`: landing, componentes, ejemplo aprobado y estilos.
 - `tests`, `scripts` y `docs`: pruebas, captura y documentación. Ver `docs/FILE-TREE.md`.
 
 ## Límites
 
-Faltan importación, exportación e informes. El MVP limita los escenarios a uno alternativo por proyecto. El modelo multicriterio combina las preferencias aportadas y no demuestra que una opción sea mejor en términos absolutos. Los proyectos pertenecen a este navegador y origen: pueden perderse al borrar los datos del sitio y no se sincronizan entre dispositivos.
+El MVP limita los escenarios a uno alternativo por proyecto. El modelo multicriterio combina las preferencias aportadas y no demuestra que una opción sea mejor en términos absolutos. Los proyectos pertenecen a este navegador y origen: pueden perderse al borrar los datos del sitio. Los respaldos son manuales y no existe sincronización entre dispositivos.

@@ -1,4 +1,4 @@
-# Arquitectura frontend · fases 9A–10F
+# Arquitectura frontend · fases 9A–10G
 
 ## Decisiones aplicadas
 
@@ -16,10 +16,12 @@
 12. **Resultados derivados.** `src/features/results/presentation.js` comprueba preparación y completitud, invoca el motor existente y transforma su salida para presentación. `results.js` crea el DOM con `textContent`; `results.css` resuelve clasificación, barras y desglose responsive. No se guardan puntuaciones ni se crea otra fuente de verdad. Las vistas ilustrativas globales de resultados y evaluación se retiraron o sustituyeron por selección de proyectos.
 13. **Escenarios interactivos.** `src/domain/scenario-operations.js` crea, edita, restablece y elimina un único escenario alternativo sin mutar la base. `src/features/scenarios` conserva entradas temporalmente inválidas solo en el formulario y llama a `project-state.js` cuando el conjunto es válido. La ruta complementaria `#/project/:id/scenarios` no altera `workflowStep`. La ruta global permite elegir un proyecto y sustituye la vista ilustrativa. La comparación usa `compareScenarios()` y no persiste resultados derivados.
 14. **Validación de base.** El modo completo estricto sigue exigiendo escenarios alternativos calculables. `scenarioMode: 'base'` omite únicamente sus requisitos de completitud y conserva las comprobaciones estructurales, para que un escenario con suma cero tras eliminar un criterio no bloquee los resultados base.
+15. **Respaldos.** `data/backup-format.js` define el contenedor versionado, valida cada campo y prepara las copias. `features/transfer/transfer-service.js` lee archivos y descarga JSON con APIs nativas. `features/transfer/transfer.js` gestiona vista previa, confirmación y mensajes, sin abrir IndexedDB. `project-repository.js` importa todos los proyectos en una única transacción; `indexeddb.js` aborta la transacción al fallar cualquiera de sus peticiones. La versión de base y del proyecto continúan en 1.
+16. **Informe derivado.** `features/report/presentation.js` reutiliza `prepareResults()`, `normalizeWeights()` y `compareScenarios()`. `report.js` compone el documento con APIs seguras del DOM y `report.css` separa pantalla e impresión A4. La ruta del informe no altera `workflowStep`. Los resultados no se persisten ni se mantienen como una segunda fuente de verdad.
 
 ## Estructura objetivo a incorporar por fases
 
-`src/domain` y `src/data` incorporan el modelo, motor de evaluación y repositorio IndexedDB. Configuración, captura de evaluaciones, resultados base y escenarios ya tienen interfaz. El intercambio de archivos queda para fases posteriores.
+`src/domain` y `src/data` incorporan el modelo, motor de evaluación, repositorio IndexedDB y formato de respaldo. Configuración, captura de evaluaciones, resultados base, escenarios, intercambio de archivos e informe tienen interfaz. No se añadió backend ni dependencia nueva.
 
 ## Contratos previstos
 
@@ -31,4 +33,4 @@
 
 ## Verificación de esta iteración
 
-Los resultados de la preparación visual y técnica están en `VERIFICATION.md` y `screenshots/`. Las fórmulas y pruebas del dominio se documentan en `DOMAIN.md` y `VERIFICATION-10A.md`. La persistencia se describe en `PERSISTENCE.md`. El asistente, evaluación, resultados y escenarios se documentan en `WIZARD.md`, `EVALUATION.md`, `RESULTS.md`, `SCENARIOS.md` y `VERIFICATION-10F.md`.
+Los resultados de la preparación visual y técnica están en `VERIFICATION.md` y `screenshots/`. Las fórmulas y pruebas del dominio se documentan en `DOMAIN.md` y `VERIFICATION-10A.md`. La persistencia se describe en `PERSISTENCE.md`. El asistente, evaluación, resultados y escenarios se documentan en `WIZARD.md`, `EVALUATION.md`, `RESULTS.md` y `SCENARIOS.md`. El intercambio y el informe se documentan en `TRANSFER.md`, `REPORT.md` y `VERIFICATION-10G.md`.

@@ -9,11 +9,13 @@ export const routeNames = Object.freeze({
   example: 'Ejemplo',
   project: 'Proyecto',
   'project-scenarios': 'Escenarios',
+  'project-report': 'Informe',
 });
 
 export function parseRoute(hash) {
   const path = hash.startsWith('#/') ? hash.slice(2) : '';
   if (/^project\/[^/]+\/scenarios$/.test(path)) return 'project-scenarios';
+  if (/^project\/[^/]+\/report$/.test(path)) return 'project-report';
   if (
     /^project\/[^/]+(?:\/(?:details|alternatives|criteria|weights|evaluation|results))?$/.test(path)
   )

@@ -7,6 +7,8 @@ import '../features/wizard/wizard.css';
 import '../features/evaluation/evaluation.css';
 import '../features/results/results.css';
 import '../features/scenarios/scenarios.css';
+import '../features/transfer/transfer.css';
+import '../features/report/report.css';
 import { createRouter, routeNames } from './router.js';
 import { createNavigationState } from './navigation-state.js';
 import { createProjectState } from './project-state.js';
@@ -35,6 +37,9 @@ import {
   renderScenariosIndex,
   mountScenariosIndex,
 } from '../features/scenarios/scenarios.js';
+import { createTransferService } from '../features/transfer/transfer-service.js';
+import { renderTransferPage, mountTransferPage } from '../features/transfer/transfer.js';
+import { renderReportPage, mountReportPage } from '../features/report/report.js';
 import {
   stepFromHash,
   wizardPath,
@@ -50,7 +55,9 @@ root.innerHTML = appShell();
 const navigation = createNavigationState(window.matchMedia('(max-width: 1000px)').matches);
 const shell = bindShell(root, navigation);
 const main = root.querySelector('#main-content');
-const projects = createProjectState(createProjectRepository());
+const repository = createProjectRepository();
+const projects = createProjectState(repository);
+const transfer = createTransferService(repository);
 let currentHash = window.location.hash || '#/dashboard';
 let renderId = 0;
 let validateEditor = null;
@@ -62,7 +69,11 @@ function setPage(route) {
   document.title = `${name} — DecisionLab`;
   syncActiveNavigation(
     root,
-    route === 'project' ? 'comparisons' : route === 'project-scenarios' ? 'scenarios' : route,
+    route === 'project' || route === 'project-report'
+      ? 'comparisons'
+      : route === 'project-scenarios'
+        ? 'scenarios'
+        : route,
   );
   shell.closeMenu();
   main.focus({ preventScroll: true });
@@ -119,7 +130,7 @@ async function renderRoute(route) {
         window.location.hash = `#/project/${encodeURIComponent(record.id)}`;
       return;
     }
-    if (route === 'project' || route === 'project-scenarios') {
+    if (route === 'project' || route === 'project-scenarios' || route === 'project-report') {
       const record = await projects.open(selectedProjectId(), () => requestId === renderId);
       if (requestId !== renderId) return;
       if (!record) {
@@ -129,6 +140,9 @@ async function renderRoute(route) {
         mountScenariosPage(main, projects, record.id);
         wizardHasInvalid = () => main.dataset.scenarioInvalid === 'true';
         updateSaveState(main, projects.snapshot());
+      } else if (route === 'project-report') {
+        main.innerHTML = renderReportPage();
+        mountReportPage(main, record.project, record.id);
       } else {
         const id = record.id;
         const step = stepFromHash(nextHash);
@@ -168,7 +182,8 @@ async function renderRoute(route) {
       route === 'dashboard' ||
       route === 'comparisons' ||
       route === 'results' ||
-      route === 'scenarios'
+      route === 'scenarios' ||
+      route === 'settings'
     ) {
       const records = await projects.refresh();
       if (requestId !== renderId) return;
@@ -179,10 +194,14 @@ async function renderRoute(route) {
             ? renderResultsIndex()
             : route === 'scenarios'
               ? renderScenariosIndex()
-              : renderComparisons();
+              : route === 'settings'
+                ? renderTransferPage()
+                : renderComparisons();
       if (route === 'dashboard') mountDashboard(main, records);
       else if (route === 'results') mountResultsIndex(main, records);
       else if (route === 'scenarios') mountScenariosIndex(main, records);
+      else if (route === 'settings')
+        mountTransferPage(main, transfer, records, () => projects.refresh());
       else mountComparisons(main, records);
     } else main.innerHTML = renderDemoView(route);
   } catch (error) {
@@ -207,6 +226,15 @@ main.addEventListener('click', async (event) => {
     if (action === 'save') {
       validateEditor?.();
       await projects.saveNow();
+    }
+    if (action === 'export') {
+      const status = main.querySelector('#projects-transfer-status');
+      try {
+        const filename = await transfer.exportOne(id);
+        if (status) status.textContent = `Descargando ${filename}.`;
+      } catch (cause) {
+        if (status) status.textContent = cause.message || 'No se pudo exportar el proyecto.';
+      }
     }
     if (action === 'duplicate') {
       const copy = await projects.duplicate(id);
@@ -240,7 +268,9 @@ function createRouterRoute() {
   return window.location.hash.startsWith('#/project/')
     ? window.location.hash.endsWith('/scenarios')
       ? 'project-scenarios'
-      : 'project'
+      : window.location.hash.endsWith('/report')
+        ? 'project-report'
+        : 'project'
     : window.location.hash.slice(2) || 'dashboard';
 }
 

@@ -12,7 +12,7 @@ export function renderComparisons() {
   return `${title('Mis comparaciones', 'Proyectos guardados en este navegador.', '<a class="btn btn--primary" href="#/new">＋ Nueva comparación</a>')}
     <div class="projects-toolbar"><label for="project-search">Buscar por nombre</label><input id="project-search" type="search" autocomplete="off" placeholder="Buscar proyectos">
       <label for="project-sort">Ordenar</label><select id="project-sort"><option value="recent">Actualizados recientemente</option><option value="oldest">Actualizados primero</option></select></div>
-    <div id="project-list" class="saved-project-list" aria-live="polite"></div>
+    <p id="projects-transfer-status" role="status" aria-live="polite"></p><div id="project-list" class="saved-project-list" aria-live="polite"></div>
     <div class="example-entry"><div><h2>Ejemplo de comparación</h2><p>Crea una copia editable de las tres herramientas y sus cuatro criterios.</p></div><a class="btn btn--outline" href="#/example">Abrir ejemplo</a></div>`;
 }
 
@@ -48,6 +48,7 @@ function projectCard(record) {
   actions.append(
     action(draft ? 'Continuar' : 'Abrir', 'open', record.id, 'btn btn--outline'),
     action('Duplicar', 'duplicate', record.id),
+    action('Exportar JSON', 'export', record.id),
     action('Eliminar', 'delete', record.id, 'text-link text-link--danger'),
   );
   if (!draft) {

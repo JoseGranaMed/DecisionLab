@@ -145,6 +145,7 @@ body {
 .page-title h1 {
   margin: 0 0 7px;
   font-size: clamp(1.8rem, 2.7vw, 2.65rem);
+  overflow-wrap: anywhere;
 }
 .page-title p {
   margin: 0;

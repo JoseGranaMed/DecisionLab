@@ -89,7 +89,13 @@ export async function transact(factory, name, mode, work) {
     await done;
     return value;
   } catch (error) {
-    if (transaction && transaction.readyState === 'active') transaction.abort();
+    if (transaction) {
+      try {
+        transaction.abort();
+      } catch {
+        // The transaction may already have completed or aborted.
+      }
+    }
     await done?.catch(() => {});
     throw toStorageError(error);
   } finally {

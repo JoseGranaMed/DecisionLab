@@ -1,4 +1,8 @@
-# Árbol de archivos · fase 10F
+# Árbol de archivos · fase 10G
+
+Los archivos de 10F indicados abajo permanecen. La fase 10G añade `src/data/backup-format.js`, `src/features/transfer/{transfer.js,transfer.css,transfer-service.js}`, `src/features/report/{report.js,report.css,presentation.js}`, `tests/unit/{backup.test.js,report.test.js}`, `tests/e2e/transfer-report.spec.js`, `scripts/capture-transfer-report.mjs`, `docs/{TRANSFER.md,REPORT.md,VERIFICATION-10G.md}` y las capturas `docs/screenshots/phase-10G-*`.
+
+Se actualizaron `README.md`, `package.json`, `src/app/{main.js,router.js,shell.css}`, `src/data/{indexeddb.js,project-repository.js}`, `src/features/{demo/demo-views.js,projects/projects.js,results/results.js}`, `tests/smoke/router.test.js` y `docs/{ARCHITECTURE.md,PERSISTENCE.md,FILE-TREE.md}`. No se cambió el dominio ni la versión de IndexedDB.
 
 ```text
 DecisionLab/
