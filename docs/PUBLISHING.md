@@ -1,10 +1,10 @@
 # Preparación para GitHub Pages
 
-El repositorio no se ha creado ni publicado. El flujo `.github/workflows/verify-and-publish.yml` comprueba código, pruebas de navegador y una compilación servida bajo una subruta; solo tras superarlas construye `dist/` y lo publica en GitHub Pages al recibir un `push` a `main` o una ejecución manual. En solicitudes de cambio solo ejecuta verificaciones.
+El repositorio público `JoseGranaMed/DecisionLab` existe y está vacío al preparar esta actualización. El flujo `.github/workflows/verify-and-publish.yml` comprueba código, pruebas de navegador y una compilación servida bajo una subruta; solo tras superarlas construye `dist/` y lo publica en GitHub Pages al recibir un `push` a `main` o una ejecución manual. En solicitudes de cambio solo ejecuta verificaciones.
 
-## Configuración tras la autorización
+## Configuración del repositorio autorizado
 
-1. Crear el repositorio en la cuenta y con el nombre, visibilidad y licencia expresamente aprobados. Subir únicamente el proyecto preparado. No subir `node_modules`, `dist`, datos personales ni respaldos reales.
+1. Vincular el proyecto Git original al repositorio autorizado y subir la rama `main` con su historial. No subir `node_modules`, `dist`, datos personales ni respaldos reales.
 2. En **Settings → Pages → Build and deployment**, elegir **Source: GitHub Actions**. El token predeterminado de `configure-pages` consulta la configuración, pero no habilita Pages por sí solo.
 3. Ejecutar o esperar el flujo de Actions. `configure-pages` proporciona la ruta base real (`/nombre-del-repositorio` o vacía para un sitio de usuario) y Vite construye ambas entradas HTML con ella. La navegación interna usa fragmentos y no requiere reglas de reescritura.
 4. Abrir la landing y `/app/` en la URL publicada. Probar un enlace directo a un proyecto, el ejemplo, resultados, escenarios, informe, exportación JSON y navegación móvil. Confirmar que no hay recursos fallidos ni desbordamiento horizontal.

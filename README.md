@@ -72,4 +72,4 @@ El MVP admite un escenario alternativo por proyecto. [Respaldo e importación](d
 
 ## Licencia
 
-Pendiente de decisión antes de publicar el repositorio. La recomendación y las atribuciones se explican en [ATTRIBUTIONS.md](docs/ATTRIBUTIONS.md); aún no se ha añadido un archivo `LICENSE`.
+Código publicado bajo la [licencia MIT](LICENSE), © 2026 Jose Granados. Las fuentes externas conservan sus propias condiciones; consulta [atribuciones](docs/ATTRIBUTIONS.md).

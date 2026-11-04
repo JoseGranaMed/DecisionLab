@@ -10,4 +10,4 @@
 
 **Aprendizajes técnicos.** El proyecto exigió distinguir borradores de evaluaciones completas, conservar la integridad de las referencias entre entidades, explicar diferencias entre empate calculado y redondeo visible, y diseñar una recuperación de datos honesta para almacenamiento por origen. El despliegue estático conserva rutas directas mediante fragmentos y usa una ruta base ajustada al repositorio.
 
-**Enlaces.** Repositorio y aplicación: pendientes hasta la publicación autorizada. Las [capturas](../README.md#capturas) muestran la interfaz y el [modelo](DOMAIN.md) documenta el cálculo.
+**Enlaces.** [Repositorio de DecisionLab](https://github.com/JoseGranaMed/DecisionLab). La aplicación pública se enlazará después de comprobar GitHub Pages. Las [capturas](../README.md#capturas) muestran la interfaz y el [modelo](DOMAIN.md) documenta el cálculo.
