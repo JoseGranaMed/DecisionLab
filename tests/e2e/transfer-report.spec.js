@@ -84,12 +84,23 @@ test('respaldo completo: restaura proyecto completo y borrador en almacenamiento
   await page.goto('/app/#/new');
   await page.getByLabel('Nombre del proyecto').fill('Borrador recuperable');
   await page.getByLabel('Pregunta de decisión').fill('¿Qué opción elegir?');
-  await expect(page.getByText('Guardado en este navegador.')).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate(async () => {
+        const { createProjectRepository } = await import('/src/data/project-repository.js');
+        const records = await createProjectRepository().listProjects();
+        const draft = records.find((item) => item.project.name === 'Borrador recuperable');
+        return draft?.project.question;
+      }),
+    )
+    .toBe('¿Qué opción elegir?');
   await page.goto('/app/#/settings');
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Exportar todos los proyectos' }).click();
   const text = await readFile(await (await downloadPromise).path(), 'utf8');
-  expect(JSON.parse(text).projects).toHaveLength(2);
+  const exported = JSON.parse(text).projects;
+  expect(exported).toHaveLength(2);
+  expect(exported.some((project) => project.name === 'Borrador recuperable')).toBe(true);
   const context = await browser.newContext();
   const fresh = await context.newPage();
   try {
@@ -113,6 +124,7 @@ test('respaldo completo: restaura proyecto completo y borrador en almacenamiento
       };
     });
     expect(restored.count).toBe(2);
+    expect(restored.draft).toBeDefined();
     expect(restored.draft.alternatives).toEqual([]);
     expect(restored.scenario.weights.cost).toBe(4);
     expect(restored.scores).toEqual([67.5, 66.25, 46.25]);
