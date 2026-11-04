@@ -1,4 +1,6 @@
 import { validateProject } from '../../domain/validation.js';
+import { serializeBackup } from '../../data/backup-format.js';
+import { downloadJson } from '../transfer/transfer-service.js';
 
 const title = (name, description, action = '') =>
   `<div class="page-title"><div><h1>${name}</h1><p>${description}</p></div>${action}</div>`;
@@ -138,11 +140,34 @@ export function updateSaveState(main, state) {
     error: 'No se pudo guardar. Tus cambios siguen abiertos en esta pestaña.',
   }[state.status];
   const error = main.querySelector('#save-error');
+  const conflict = state.status === 'error' && state.error?.code === 'conflict';
+  const saveButton = main.querySelector('[data-action="save"]');
+  if (saveButton) saveButton.disabled = conflict;
   error.hidden = state.status !== 'error';
   error.textContent =
     state.status === 'error'
-      ? `${state.error?.message || 'Error de almacenamiento.'} Pulsa «Guardar ahora» para reintentar.`
+      ? conflict
+        ? 'Este proyecto cambió en otra pestaña. Tus cambios aquí no se guardaron. Descarga una copia antes de recargar; luego podrás importarla desde Configuración. La versión guardada en la otra pestaña no se reemplazó.'
+        : `${state.error?.message || 'Error de almacenamiento.'} Pulsa «Guardar ahora» para reintentar.`
       : '';
+  let recovery = main.querySelector('#save-conflict-recovery');
+  if (conflict && state.active) {
+    if (!recovery) {
+      recovery = document.createElement('button');
+      recovery.id = 'save-conflict-recovery';
+      recovery.className = 'btn btn--outline';
+      recovery.type = 'button';
+      recovery.textContent = 'Descargar copia de mis cambios';
+      error.insertAdjacentElement('afterend', recovery);
+    }
+    recovery.onclick = () => {
+      try {
+        downloadJson(serializeBackup([state.active]), 'cambios-pendientes');
+      } catch (cause) {
+        error.textContent = `No se pudo descargar la copia: ${cause.message}`;
+      }
+    };
+  } else recovery?.remove();
   const completeness = main.querySelector('#project-completeness');
   if (completeness && state.active)
     completeness.textContent = isDraft(state.active) ? 'Borrador' : 'Datos completos';

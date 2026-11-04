@@ -1,4 +1,40 @@
 import { expect, test } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
+
+test('un conflicto entre pestañas conserva la primera versión y permite descargar la edición pendiente', async ({
+  page,
+  context,
+}) => {
+  await page.goto('/app/#/new');
+  await page.getByLabel('Nombre del proyecto').waitFor();
+  const url = page.url();
+  const second = await context.newPage();
+  try {
+    await second.goto(url);
+    await second.getByLabel('Nombre del proyecto').waitFor();
+    await page.getByLabel('Nombre del proyecto').fill('Primera pestaña');
+    await page.getByRole('button', { name: 'Guardar ahora' }).click();
+    await expect(page.getByText('Guardado en este navegador.')).toBeVisible();
+    await second.getByLabel('Nombre del proyecto').fill('Segunda pestaña');
+    await second.getByRole('button', { name: 'Guardar ahora' }).click();
+    await expect(second.locator('#save-error')).toContainText('Tus cambios aquí no se guardaron');
+    await expect(second.locator('#save-error')).not.toContainText('Guardar ahora');
+    await expect(second.getByRole('button', { name: 'Guardar ahora' })).toBeDisabled();
+    await second.setViewportSize({ width: 320, height: 850 });
+    await second.screenshot({ path: 'docs/evidence-11B/conflict-320.png', fullPage: true });
+    const downloading = second.waitForEvent('download');
+    await second.getByRole('button', { name: 'Descargar copia de mis cambios' }).click();
+    const copy = JSON.parse(await readFile(await (await downloading).path(), 'utf8'));
+    expect(copy.projects[0].name).toBe('Segunda pestaña');
+    const saved = await page.evaluate(async () => {
+      const { createProjectRepository } = await import('/src/data/project-repository.js');
+      return (await createProjectRepository().listProjects())[0].project.name;
+    });
+    expect(saved).toBe('Primera pestaña');
+  } finally {
+    await second.close();
+  }
+});
 
 test('crear, editar, recuperar, buscar, duplicar y eliminar un borrador real', async ({ page }) => {
   await page.goto('/app/#/comparisons');

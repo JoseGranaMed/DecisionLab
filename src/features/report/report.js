@@ -125,7 +125,10 @@ function configuration(workspace, report) {
 
 function evaluations(workspace, report) {
   const sectionElement = section('Evaluaciones utilizadas');
-  for (const group of report.evaluations) {
+  const opening = node('div', 'report-keep-together');
+  opening.append(sectionElement.querySelector('h2'));
+  sectionElement.append(opening);
+  for (const [index, group] of report.evaluations.entries()) {
     const article = node('article', 'report-evaluation');
     article.append(node('h3', '', group.alternative.name));
     const values = node('dl', 'report-details');
@@ -137,7 +140,7 @@ function evaluations(workspace, report) {
         ),
       );
     article.append(values);
-    sectionElement.append(article);
+    (index === 0 ? opening : sectionElement).append(article);
   }
   workspace.append(sectionElement);
 }
@@ -198,7 +201,9 @@ function scenario(workspace, report) {
   }
   const compared = report.scenario;
   const sectionElement = section(`Escenario alternativo · ${compared.name}`);
-  sectionElement.append(
+  const introduction = node('div', 'report-keep-together');
+  introduction.append(
+    sectionElement.querySelector('h2'),
     node(
       'p',
       '',
@@ -215,11 +220,10 @@ function scenario(workspace, report) {
       ),
     );
   }
-  sectionElement.append(
-    node('h3', '', 'Pesos alternativos'),
-    weights,
-    node('h3', '', 'Comparación de resultados'),
-  );
+  const weightGroup = node('div', 'report-keep-together');
+  weightGroup.append(node('h3', '', 'Pesos alternativos'), weights);
+  introduction.append(weightGroup);
+  sectionElement.append(introduction, node('h3', '', 'Comparación de resultados'));
   for (const change of compared.changes) {
     const article = node('article', 'report-scenario-result');
     article.append(

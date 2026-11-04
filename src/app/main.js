@@ -111,6 +111,16 @@ async function renderRoute(route) {
   }
   if (nextHash !== currentHash && projects.snapshot().dirty) {
     const saved = await projects.saveNow();
+    if (!saved && projects.snapshot().error?.code === 'conflict') {
+      window.history.replaceState(null, '', currentHash);
+      router.resetCurrentHash();
+      const conflictMessage = main.querySelector('#save-error');
+      if (conflictMessage) {
+        conflictMessage.tabIndex = -1;
+        conflictMessage.focus();
+      }
+      return;
+    }
     if (!saved && !window.confirm('No se pudieron guardar los cambios. ¿Salir y descartarlos?')) {
       window.history.replaceState(null, '', currentHash);
       router.resetCurrentHash();
@@ -122,12 +132,16 @@ async function renderRoute(route) {
   validateEditor = null;
   wizardHasInvalid = () => false;
   try {
-    if (route === 'new' || route === 'example') {
+    if (route === 'new' || route === 'example' || route.startsWith('example/')) {
       const record = await projects.create(
-        route === 'example' ? { template: officialExampleProject() } : {},
+        route.startsWith('example') ? { template: officialExampleProject() } : {},
       );
-      if (requestId === renderId)
-        window.location.hash = `#/project/${encodeURIComponent(record.id)}`;
+      if (requestId === renderId) {
+        const step = route.split('/')[1];
+        window.location.hash = step
+          ? wizardPath(record.id, step)
+          : `#/project/${encodeURIComponent(record.id)}`;
+      }
       return;
     }
     if (route === 'project' || route === 'project-scenarios' || route === 'project-report') {

@@ -36,10 +36,40 @@ test('el menú móvil responde a teclado y Escape', async ({ page }) => {
   const menu = page.getByRole('button', { name: 'Abrir más opciones' });
   await menu.focus();
   await page.keyboard.press('Enter');
-  await expect(page.getByRole('link', { name: 'Escenarios' })).toBeVisible();
+  const menuPanel = page.locator('#mobile-menu');
+  await expect(menuPanel.getByRole('link', { name: 'Resultados' })).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(menuPanel.getByRole('link', { name: 'Escenarios' })).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(menuPanel.getByRole('link', { name: 'Resultados' })).toBeFocused();
   await page.keyboard.press('Escape');
-  await expect(page.getByRole('link', { name: 'Escenarios' })).toBeHidden();
+  await expect(menuPanel).toBeHidden();
+  await expect(menu).toBeFocused();
+  await page.keyboard.press('Space');
+  await expect(menuPanel.getByRole('link', { name: 'Resultados' })).toBeFocused();
+  await menuPanel.getByRole('button', { name: 'Cerrar menú' }).click();
+  await expect(menu).toBeFocused();
+  await expect(menuPanel).toBeHidden();
 });
+
+for (const [link, destination] of [
+  ['Ver cómo se evalúa', 'evaluation'],
+  ['Revisar el resultado', 'results'],
+]) {
+  test(`la landing abre explícitamente el ejemplo en ${destination} con almacenamiento vacío`, async ({
+    page,
+  }) => {
+    await page.goto('/');
+    await page.getByRole('link', { name: link }).click();
+    await expect(page).toHaveURL(new RegExp(`#/project/[^/]+/${destination}$`));
+    await expect(page.locator('#main-content')).toContainText('Herramienta A');
+    const count = await page.evaluate(async () => {
+      const { createProjectRepository } = await import('/src/data/project-repository.js');
+      return (await createProjectRepository().listProjects()).length;
+    });
+    expect(count).toBe(1);
+  });
+}
 
 test('landing y aplicación cargan estilos y recursos sin errores de JavaScript', async ({
   page,

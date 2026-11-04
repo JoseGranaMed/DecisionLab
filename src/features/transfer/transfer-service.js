@@ -2,10 +2,16 @@ import {
   BackupError,
   MAX_BACKUP_BYTES,
   parseBackup,
+  prepareBackupBatches,
   serializeBackup,
 } from '../../data/backup-format.js';
 
-function downloadJson(json, kind, documentRef = globalThis.document, urlApi = globalThis.URL) {
+export function downloadJson(
+  json,
+  kind,
+  documentRef = globalThis.document,
+  urlApi = globalThis.URL,
+) {
   const name = `decisionlab-${kind}-${new Date().toISOString().slice(0, 10)}.json`;
   const blob = new globalThis.Blob([json], { type: 'application/json;charset=utf-8' });
   const url = urlApi.createObjectURL(blob);
@@ -31,9 +37,16 @@ export function createTransferService(repository) {
       if (!record) throw new BackupError('not-found', 'La comparación ya no existe.');
       return downloadJson(serializeBackup([record.project]), 'proyecto');
     },
-    async exportAll() {
+    async prepareAll() {
       const records = await repository.listProjects();
-      return downloadJson(serializeBackup(records.map((record) => record.project)), 'respaldo');
+      return prepareBackupBatches(records.map((record) => record.project));
+    },
+    downloadBatch(batch, index, total) {
+      const suffix =
+        total === 1
+          ? 'respaldo'
+          : `respaldo-lote-${String(index + 1).padStart(2, '0')}-de-${String(total).padStart(2, '0')}`;
+      return downloadJson(batch.json, suffix);
     },
     async inspect(file) {
       if (!file) throw new BackupError('missing-file', 'Selecciona un archivo JSON.');

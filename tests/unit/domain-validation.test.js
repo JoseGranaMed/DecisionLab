@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createDraftProject, validateProject } from '../../src/domain/index.js';
 import { officialExample } from '../fixtures/official-example.js';
+import { isValidIsoDate } from '../../src/domain/dates.js';
 
 const codes = (result) => result.errors.map((error) => error.code);
 
@@ -79,5 +80,22 @@ describe('validación del modelo', () => {
 
   it('acepta el ejemplo oficial completo', () => {
     expect(validateProject(officialExample())).toEqual({ ok: true, errors: [] });
+  });
+
+  it('valida año bisiesto, día real, hora y formato ISO completo', () => {
+    for (const value of [
+      '2024-02-29T23:59:59.999Z',
+      '2026-11-04T00:00:00.000Z',
+      '2026-11-04T05:00:00-05:00',
+    ])
+      expect(isValidIsoDate(value)).toBe(true);
+    for (const value of [
+      '2026-02-29T00:00:00.000Z',
+      '2026-02-31T00:00:00.000Z',
+      '2026-13-01T00:00:00.000Z',
+      '2026-11-04T24:00:00.000Z',
+      '2026-11-04',
+    ])
+      expect(isValidIsoDate(value)).toBe(false);
   });
 });

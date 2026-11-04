@@ -27,7 +27,7 @@ document.querySelector('#landing-root').innerHTML = `
         <p>Registra alternativas y criterios, asigna pesos y revisa cómo cambia la clasificación cuando ajustas tus prioridades.</p>
         <div class="hero-actions">
           <a class="btn btn--primary" href="${app}/example">Abrir un ejemplo <span aria-hidden="true">→</span></a>
-          <a class="btn btn--outline" href="${app}/evaluation">Ver cómo se evalúa</a>
+          <a class="btn btn--outline" href="${app}/example/evaluation">Ver cómo se evalúa</a>
         </div>
       </div>
       <figure class="decision-preview" aria-label="Resumen de la comparación de ejemplo">
@@ -58,7 +58,7 @@ document.querySelector('#landing-root').innerHTML = `
           <div class="preview-scores"><strong>B 70</strong><small>A · 60</small></div>
         </div>
         <div class="preview-foot"><span>Resumen ilustrativo, sin cálculo activo</span>
-          <a class="preview-link" href="${app}/results">Revisar el resultado ${icon('arrow')}</a></div>
+          <a class="preview-link" href="${app}/example/results">Revisar el resultado ${icon('arrow')}</a></div>
       </figure>
     </section>
     <section class="how wrap" id="how" aria-labelledby="how-title">
@@ -73,7 +73,7 @@ document.querySelector('#landing-root').innerHTML = `
     <section class="data-note wrap" id="privacy" aria-labelledby="privacy-title">
       <div><span class="data-note-label">Almacenamiento local</span>
         <h2 id="privacy-title">Tus comparaciones quedan en este navegador.</h2></div>
-      <div><p>Puedes guardar y recuperar proyectos en este dispositivo. La exportación de copias se incorporará más adelante.</p>
+      <div><p>Puedes guardar proyectos en este dispositivo y descargar copias JSON desde Configuración para recuperarlos después.</p>
         <p class="data-note-fine">Sin cuenta ni sincronización entre equipos. Los proyectos pueden perderse si se borran los datos del navegador.</p></div>
     </section>
   </main>

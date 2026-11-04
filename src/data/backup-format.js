@@ -1,5 +1,6 @@
 import { SCHEMA_VERSION } from '../domain/model.js';
 import { validateProject } from '../domain/validation.js';
+import { isValidIsoDate } from '../domain/dates.js';
 
 export const BACKUP_FORMAT_VERSION = 1;
 export const MAX_BACKUP_BYTES = 20 * 1024 * 1024;
@@ -15,10 +16,18 @@ export class BackupError extends Error {
 }
 
 const object = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
-const isoDate = (value) =>
-  typeof value === 'string' &&
-  /^\d{4}-\d\d-\d\dT/.test(value) &&
-  Number.isFinite(Date.parse(value));
+
+function enforceMvpLimits(projects) {
+  projects.forEach((project, index) => {
+    const alternatives = project.alternatives.length;
+    const criteria = project.criteria.length;
+    if (alternatives > 5 || criteria > 8)
+      throw new BackupError(
+        'mvp-limit',
+        `El proyecto ${index + 1} («${project.name.trim() || 'Sin título'}») tiene ${alternatives} alternativas y ${criteria} criterios. El máximo es 5 alternativas y 8 criterios. Corrige el archivo antes de importar.`,
+      );
+  });
+}
 
 function exactKeys(value, allowed, path) {
   if (!object(value)) throw new BackupError('invalid-shape', `${path} debe ser un objeto.`);
@@ -138,7 +147,7 @@ function verifiedProjects(projects) {
 }
 
 export function serializeBackup(projects, exportedAt = new Date().toISOString()) {
-  if (!isoDate(exportedAt))
+  if (!isValidIsoDate(exportedAt))
     throw new BackupError('invalid-date', 'La fecha del respaldo no es válida.');
   const backup = {
     application: 'DecisionLab',
@@ -150,6 +159,39 @@ export function serializeBackup(projects, exportedAt = new Date().toISOString())
   if (new globalThis.TextEncoder().encode(json).length > MAX_BACKUP_BYTES)
     throw new BackupError('file-too-large', 'El respaldo supera el límite de 20 MiB.');
   return json;
+}
+
+/** Plans explicit, individually importable files without skipping any project. */
+export function prepareBackupBatches(projects, exportedAt = new Date().toISOString()) {
+  if (!Array.isArray(projects))
+    throw new BackupError('invalid-shape', 'La lista de proyectos no es válida.');
+  if (!projects.length) return [];
+  const batches = [];
+  let start = 0;
+  while (start < projects.length) {
+    let low = 1;
+    let high = Math.min(MAX_BACKUP_PROJECTS, projects.length - start);
+    let best = null;
+    while (low <= high) {
+      const count = Math.floor((low + high) / 2);
+      try {
+        const json = serializeBackup(projects.slice(start, start + count), exportedAt);
+        best = { start, count, json };
+        low = count + 1;
+      } catch (error) {
+        if (error.code !== 'file-too-large') throw error;
+        high = count - 1;
+      }
+    }
+    if (!best)
+      throw new BackupError(
+        'project-too-large',
+        `El proyecto ${start + 1} supera por sí solo el límite de 20 MiB. Expórtalo después de reducir su contenido.`,
+      );
+    batches.push(best);
+    start += best.count;
+  }
+  return batches;
 }
 
 export function parseBackup(text) {
@@ -169,13 +211,15 @@ export function parseBackup(text) {
     throw new BackupError('application', 'El archivo no es un respaldo de DecisionLab.');
   if (backup.formatVersion !== BACKUP_FORMAT_VERSION)
     throw new BackupError('format-version', 'La versión del formato de respaldo no es compatible.');
-  if (!isoDate(backup.exportedAt))
+  if (!isValidIsoDate(backup.exportedAt))
     throw new BackupError('invalid-date', 'La fecha del respaldo no es válida.');
+  const projects = verifiedProjects(backup.projects);
+  enforceMvpLimits(projects);
   return {
     application: backup.application,
     formatVersion: backup.formatVersion,
     exportedAt: backup.exportedAt,
-    projects: verifiedProjects(backup.projects),
+    projects,
   };
 }
 
@@ -188,6 +232,7 @@ export function planImport(
   if (!['copy', 'copy-conflicts'].includes(mode))
     throw new BackupError('invalid-mode', 'Modo de importación desconocido.');
   const candidates = verifiedProjects(projects);
+  enforceMvpLimits(candidates);
   const used = new Set(existingIds);
   return candidates.map((project) => {
     const sourceId = project.id;

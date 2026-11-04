@@ -271,10 +271,17 @@
   }
   .report-section h2,
   .report-section h3,
+  .report-keep-together,
   .report-result,
   .report-evaluation,
   .report-scenario-result {
     break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .report-section h2,
+  .report-section h3 {
+    break-after: avoid-page;
+    page-break-after: avoid;
   }
   .report-table-scroll {
     overflow: visible;

@@ -1,4 +1,5 @@
 import { SCHEMA_VERSION } from './model.js';
+import { isValidIsoDate } from './dates.js';
 
 const present = (value) => value !== undefined && value !== null && value !== '';
 const record = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -52,14 +53,6 @@ function uniqueIds(items, path, errors) {
   return seen;
 }
 
-function isoDate(value) {
-  return (
-    typeof value === 'string' &&
-    /^\d{4}-\d\d-\d\dT/.test(value) &&
-    Number.isFinite(Date.parse(value))
-  );
-}
-
 /**
  * Validates a JSON-safe project. Draft mode permits missing names, criteria details and answers,
  * but rejects malformed supplied values, duplicate IDs and broken references.
@@ -105,12 +98,12 @@ export function validateProject(project, options = {}) {
     errors.push(issue('workflowStep', 'invalid-step', 'Paso del asistente desconocido.'));
   }
   for (const field of ['createdAt', 'updatedAt']) {
-    if (!isoDate(project[field]))
+    if (!isValidIsoDate(project[field]))
       errors.push(issue(field, 'invalid-date', 'Introduce una fecha ISO válida.'));
   }
   if (
-    isoDate(project.createdAt) &&
-    isoDate(project.updatedAt) &&
+    isValidIsoDate(project.createdAt) &&
+    isValidIsoDate(project.updatedAt) &&
     Date.parse(project.updatedAt) < Date.parse(project.createdAt)
   ) {
     errors.push(issue('updatedAt', 'date-order', 'La actualización precede a la creación.'));

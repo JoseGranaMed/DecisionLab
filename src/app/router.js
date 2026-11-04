@@ -7,6 +7,8 @@ export const routeNames = Object.freeze({
   settings: 'Configuración',
   new: 'Nueva comparación',
   example: 'Ejemplo',
+  'example/evaluation': 'Ejemplo · evaluación',
+  'example/results': 'Ejemplo · resultados',
   project: 'Proyecto',
   'project-scenarios': 'Escenarios',
   'project-report': 'Informe',

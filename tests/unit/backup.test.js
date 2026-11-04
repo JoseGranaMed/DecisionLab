@@ -3,6 +3,7 @@ import { createDraftProject } from '../../src/domain/model.js';
 import {
   parseBackup,
   planImport,
+  prepareBackupBatches,
   serializeBackup,
   MAX_BACKUP_BYTES,
 } from '../../src/data/backup-format.js';
@@ -170,5 +171,86 @@ describe('formato de respaldo', () => {
     expect(
       code(() => planImport([source], new Set([source.id]), { idFactory: () => source.id })),
     ).toBe('id-collision');
+  });
+
+  it('divide 502 proyectos en archivos válidos sin omisiones', () => {
+    const projects = Array.from({ length: 502 }, (_, index) => ({
+      ...draft(),
+      id: `draft-${index}`,
+      name: `Proyecto ${index}`,
+    }));
+    const batches = prepareBackupBatches(projects, '2026-11-04T00:00:00.000Z');
+    expect(batches.map((batch) => batch.count)).toEqual([500, 2]);
+    const restored = batches.flatMap((batch) => parseBackup(batch.json).projects);
+    expect(restored.map((project) => project.id)).toEqual(projects.map((project) => project.id));
+    expect(new Set(restored.map((project) => project.id)).size).toBe(502);
+    expect(
+      batches.every(
+        (batch) => new globalThis.TextEncoder().encode(batch.json).length <= MAX_BACKUP_BYTES,
+      ),
+    ).toBe(true);
+  });
+
+  it('divide también por tamaño cuando hay menos de 500 proyectos', () => {
+    const longText = 'x'.repeat(5000);
+    const projects = Array.from({ length: 400 }, (_, index) => ({
+      ...draft(),
+      id: `large-${index}`,
+      description: longText,
+      alternatives: Array.from({ length: 5 }, (_, order) => ({
+        id: `a-${order}`,
+        name: `A ${order}`,
+        description: longText,
+        order,
+      })),
+      criteria: Array.from({ length: 8 }, (_, criterion) => ({
+        id: `c-${criterion}`,
+        name: `C ${criterion}`,
+        description: longText,
+        type: 'rating',
+        weight: 1,
+      })),
+    }));
+    const batches = prepareBackupBatches(projects, '2026-11-04T00:00:00.000Z');
+    expect(batches.length).toBeGreaterThan(1);
+    expect(batches.reduce((sum, batch) => sum + batch.count, 0)).toBe(400);
+    expect(
+      batches.every(
+        (batch) => new globalThis.TextEncoder().encode(batch.json).length <= MAX_BACKUP_BYTES,
+      ),
+    ).toBe(true);
+    expect(
+      batches.flatMap((batch) => parseBackup(batch.json).projects).map((project) => project.id),
+    ).toEqual(projects.map((project) => project.id));
+  });
+
+  it('rechaza en la importación un proyecto que supere 5 alternativas u 8 criterios y conserva borradores pequeños', () => {
+    const oversized = draft();
+    oversized.name = 'Fuera de límite';
+    oversized.alternatives = Array.from({ length: 6 }, (_, index) => ({
+      id: `a-${index}`,
+      name: `Alternativa ${index}`,
+      description: '',
+      order: index,
+    }));
+    oversized.criteria = Array.from({ length: 9 }, (_, index) => ({
+      id: `c-${index}`,
+      name: `Criterio ${index}`,
+      description: '',
+      type: 'rating',
+      weight: 1,
+    }));
+    expect(code(() => parseBackup(backup([oversized])))).toBe('mvp-limit');
+    expect(code(() => planImport([oversized], new Set()))).toBe('mvp-limit');
+    expect(parseBackup(backup([draft()])).projects).toHaveLength(1);
+  });
+
+  it('rechaza fechas calendáricas imposibles en proyecto y respaldo', () => {
+    const valid = JSON.parse(backup([draft()]));
+    valid.projects[0].createdAt = '2026-02-31T00:00:00.000Z';
+    expect(code(() => parseBackup(JSON.stringify(valid)))).toBe('invalid-project');
+    valid.projects[0].createdAt = '2026-11-04T00:00:00.000Z';
+    valid.exportedAt = '2026-02-31T00:00:00.000Z';
+    expect(code(() => parseBackup(JSON.stringify(valid)))).toBe('invalid-date');
   });
 });

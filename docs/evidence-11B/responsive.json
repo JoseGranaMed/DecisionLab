@@ -1,0 +1,190 @@
+{
+  "base": "http://127.0.0.1:4189/DecisionLab/",
+  "screens": [
+    {
+      "width": 320,
+      "name": "landing",
+      "viewport": 320,
+      "scrollWidth": 320,
+      "title": "DecisionLab — Compara opciones"
+    },
+    {
+      "width": 320,
+      "name": "transfer",
+      "viewport": 320,
+      "scrollWidth": 320,
+      "title": "Configuración — DecisionLab"
+    },
+    {
+      "width": 320,
+      "name": "report",
+      "viewport": 320,
+      "scrollWidth": 320,
+      "title": "Informe — DecisionLab"
+    },
+    {
+      "width": 375,
+      "name": "landing",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "title": "DecisionLab — Compara opciones"
+    },
+    {
+      "width": 375,
+      "name": "transfer",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "title": "Configuración — DecisionLab"
+    },
+    {
+      "width": 375,
+      "name": "report",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "title": "Informe — DecisionLab"
+    },
+    {
+      "width": 390,
+      "name": "landing",
+      "viewport": 390,
+      "scrollWidth": 390,
+      "title": "DecisionLab — Compara opciones"
+    },
+    {
+      "width": 390,
+      "name": "transfer",
+      "viewport": 390,
+      "scrollWidth": 390,
+      "title": "Configuración — DecisionLab"
+    },
+    {
+      "width": 390,
+      "name": "report",
+      "viewport": 390,
+      "scrollWidth": 390,
+      "title": "Informe — DecisionLab"
+    },
+    {
+      "width": 768,
+      "name": "landing",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "title": "DecisionLab — Compara opciones"
+    },
+    {
+      "width": 768,
+      "name": "transfer",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "title": "Configuración — DecisionLab"
+    },
+    {
+      "width": 768,
+      "name": "report",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "title": "Informe — DecisionLab"
+    },
+    {
+      "width": 1024,
+      "name": "landing",
+      "viewport": 1024,
+      "scrollWidth": 1024,
+      "title": "DecisionLab — Compara opciones"
+    },
+    {
+      "width": 1024,
+      "name": "transfer",
+      "viewport": 1024,
+      "scrollWidth": 1024,
+      "title": "Configuración — DecisionLab"
+    },
+    {
+      "width": 1024,
+      "name": "report",
+      "viewport": 1024,
+      "scrollWidth": 1024,
+      "title": "Informe — DecisionLab"
+    },
+    {
+      "width": 1440,
+      "name": "landing",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "title": "DecisionLab — Compara opciones"
+    },
+    {
+      "width": 1440,
+      "name": "transfer",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "title": "Configuración — DecisionLab"
+    },
+    {
+      "width": 1440,
+      "name": "report",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "title": "Informe — DecisionLab"
+    },
+    {
+      "width": 320,
+      "name": "batches",
+      "viewport": 320,
+      "scrollWidth": 320,
+      "title": "Configuración — DecisionLab"
+    },
+    {
+      "width": 375,
+      "name": "batches",
+      "viewport": 375,
+      "scrollWidth": 375,
+      "title": "Configuración — DecisionLab"
+    },
+    {
+      "width": 390,
+      "name": "batches",
+      "viewport": 390,
+      "scrollWidth": 390,
+      "title": "Configuración — DecisionLab"
+    },
+    {
+      "width": 768,
+      "name": "batches",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "title": "Configuración — DecisionLab"
+    },
+    {
+      "width": 1024,
+      "name": "batches",
+      "viewport": 1024,
+      "scrollWidth": 1024,
+      "title": "Configuración — DecisionLab"
+    },
+    {
+      "width": 1440,
+      "name": "batches",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "title": "Configuración — DecisionLab"
+    }
+  ],
+  "failures": [],
+  "pdf": {
+    "max": {
+      "alternatives": 5,
+      "criteria": 8
+    }
+  },
+  "longFile": "decisionlab-respaldo-proyecto-de-prueba-con-un-nombre-muy-largo-2026.json",
+  "zoomTransfer": {
+    "viewport": 320,
+    "scrollWidth": 320
+  },
+  "batches": [
+    "Lote 1 de 2 · 500 proyectosDescargar lote 1",
+    "Lote 2 de 2 · 2 proyectosDescargar lote 2"
+  ],
+  "menuFocus": "Resultados"
+}

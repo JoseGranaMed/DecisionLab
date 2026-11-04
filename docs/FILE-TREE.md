@@ -1,60 +1,34 @@
-# Árbol de archivos · fase 10G
-
-Los archivos de 10F indicados abajo permanecen. La fase 10G añade `src/data/backup-format.js`, `src/features/transfer/{transfer.js,transfer.css,transfer-service.js}`, `src/features/report/{report.js,report.css,presentation.js}`, `tests/unit/{backup.test.js,report.test.js}`, `tests/e2e/transfer-report.spec.js`, `scripts/capture-transfer-report.mjs`, `docs/{TRANSFER.md,REPORT.md,VERIFICATION-10G.md}` y las capturas `docs/screenshots/phase-10G-*`.
-
-Se actualizaron `README.md`, `package.json`, `src/app/{main.js,router.js,shell.css}`, `src/data/{indexeddb.js,project-repository.js}`, `src/features/{demo/demo-views.js,projects/projects.js,results/results.js}`, `tests/smoke/router.test.js` y `docs/{ARCHITECTURE.md,PERSISTENCE.md,FILE-TREE.md}`. No se cambió el dominio ni la versión de IndexedDB.
+# Estructura del proyecto · cierre del MVP
 
 ```text
 DecisionLab/
-├── README.md
-├── index.html, app/index.html
-├── package.json, package-lock.json
-├── vite.config.js, playwright.config.js, eslint.config.js
-├── scripts/
-│   ├── capture.mjs, capture-projects.mjs, capture-wizard.mjs
-│   ├── capture-evaluation.mjs                  [10D]
-│   ├── capture-results.mjs                     [10E]
-│   └── capture-scenarios.mjs                   [10F]
+├── index.html                 Landing independiente
+├── app/index.html             Espacio de trabajo
+├── package.json               Comandos y herramientas de calidad
+├── vite.config.js             Compilación estática
+├── playwright.config.js       Pruebas en navegador
 ├── src/
-│   ├── app/
-│   │   ├── main.js, router.js                  [actualizados 10F]
-│   │   ├── navigation-state.js, project-state.js
-│   │   └── shell.css
-│   ├── data/indexeddb.js, project-repository.js
-│   ├── domain/
-│   │   ├── answers.js                          [10D]
-│   │   ├── setup.js
-│   │   ├── model.js, validation.js, index.js   [validation/index actualizados 10F]
-│   │   ├── scenario-operations.js              [10F]
-│   │   └── evaluation.js, normalization.js, scenarios.js
+│   ├── app/                   Router, estado de edición, shell
+│   ├── data/                  IndexedDB, repositorio y respaldo JSON
+│   ├── domain/                Modelo, fechas, validación, cálculo y escenarios
 │   ├── features/
-│   │   ├── evaluation/evaluation.js, evaluation.css [10D]
-│   │   ├── results/presentation.js, results.js, results.css [10E]
-│   │   ├── scenarios/scenarios.js, scenarios.css [10F]
-│   │   ├── wizard/wizard.js, wizard.css         [wizard.js actualizado 10E]
-│   │   ├── projects/projects.js, projects.css  [projects.js actualizado 10F]
-│   │   ├── dashboard/dashboard.js, dashboard.css [dashboard.js actualizado 10F]
-│   │   └── demo/demo-views.js, demo.css         [demo-views.js actualizado 10F]
-│   ├── landing/main.js, landing.css
-│   ├── shared/components/, shared/demo/, shared/numbers.js [10F]
-│   └── styles/base.css, tokens.css            [base.css actualizado 10F]
+│   │   ├── dashboard/          Resumen
+│   │   ├── projects/           Proyectos y edición
+│   │   ├── wizard/             Pasos de configuración
+│   │   ├── evaluation/         Respuestas
+│   │   ├── results/            Clasificación y aportes
+│   │   ├── scenarios/          Simulación de prioridades
+│   │   ├── transfer/           Exportación e importación
+│   │   └── report/             Informe HTML e impresión
+│   ├── landing/               Hero y secciones editoriales
+│   ├── shared/                Componentes, iconos y ejemplo oficial
+│   └── styles/                Tokens y estilos base
 ├── tests/
-│   ├── e2e/navigation.spec.js, projects.spec.js,
-│   │   wizard.spec.js, evaluation.spec.js,
-│   │   results.spec.js, scenarios.spec.js      [10F]
-│   ├── smoke/render.test.js, router.test.js    [router actualizado 10E]
-│   ├── unit/domain-*.test.js, navigation-state.test.js,
-│   │   project-state.test.js, setup.test.js, answers.test.js,
-│   │   results.test.js, scenarios.test.js      [10F]
-│   └── fixtures/official-example.js
-└── docs/
-    ├── ARCHITECTURE.md, DOMAIN.md, PERSISTENCE.md
-    ├── WIZARD.md, EVALUATION.md, RESULTS.md, SCENARIOS.md, FILE-TREE.md
-    ├── VERIFICATION.md, VERIFICATION-10A.md,
-    │   VERIFICATION-10B.md, VERIFICATION-10C.md,
-    │   VERIFICATION-10C1.md, VERIFICATION-10D.md,
-    │   VERIFICATION-10E.md, VERIFICATION-10F.md [10F]
-    └── screenshots/ (capturas históricas y capturas 10F)
+│   ├── unit/                  Dominio, respaldo, estado e informe
+│   ├── smoke/                 Entradas y rutas básicas
+│   └── e2e/                   Operaciones, persistencia y responsive
+├── scripts/                   Capturas y verificación del sitio compilado
+└── docs/                      Arquitectura, uso, auditoría y evidencias
 ```
 
-El ZIP incluye código, configuración, pruebas, documentación y capturas. Excluye `.git/`, `node_modules/`, `dist/` y resultados temporales.
+`docs/AUDIT-11A.md` conserva el diagnóstico previo. `docs/VERIFICATION-11B.md` relaciona cada hallazgo con su corrección y prueba. `docs/evidence-11B/` contiene las nuevas capturas, medidas responsive y muestras de impresión. `node_modules/` y `dist/` son generados y no forman parte del ZIP de entrega.

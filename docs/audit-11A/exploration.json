@@ -1,0 +1,652 @@
+{
+  "base": "http://127.0.0.1:4188/DecisionLab/",
+  "failures": [],
+  "screens": [
+    {
+      "width": 320,
+      "name": "landing",
+      "title": "DecisionLab — Compara opciones",
+      "bodyWidth": 320,
+      "viewport": 320,
+      "heading": "Compara opciones según lo que más te importa."
+    },
+    {
+      "width": 320,
+      "name": "dashboard",
+      "title": "Resumen — DecisionLab",
+      "bodyWidth": 320,
+      "viewport": 320,
+      "heading": "Tus comparaciones"
+    },
+    {
+      "width": 320,
+      "name": "comparisons",
+      "title": "Mis comparaciones — DecisionLab",
+      "bodyWidth": 320,
+      "viewport": 320,
+      "heading": "Mis comparaciones"
+    },
+    {
+      "width": 320,
+      "name": "details",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 320,
+      "viewport": 320,
+      "heading": "Datos de la comparación"
+    },
+    {
+      "width": 320,
+      "name": "alternatives",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 320,
+      "viewport": 320,
+      "heading": "Alternativas"
+    },
+    {
+      "width": 320,
+      "name": "criteria",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 320,
+      "viewport": 320,
+      "heading": "Criterios"
+    },
+    {
+      "width": 320,
+      "name": "weights",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 320,
+      "viewport": 320,
+      "heading": "Pesos"
+    },
+    {
+      "width": 320,
+      "name": "evaluation",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 320,
+      "viewport": 320,
+      "heading": "Evaluación"
+    },
+    {
+      "width": 320,
+      "name": "results",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 320,
+      "viewport": 320,
+      "heading": "Herramientas para el equipo"
+    },
+    {
+      "width": 320,
+      "name": "scenarios",
+      "title": "Escenarios — DecisionLab",
+      "bodyWidth": 320,
+      "viewport": 320,
+      "heading": "Herramientas para el equipo"
+    },
+    {
+      "width": 320,
+      "name": "transfer",
+      "title": "Configuración — DecisionLab",
+      "bodyWidth": 320,
+      "viewport": 320,
+      "heading": "Configuración"
+    },
+    {
+      "width": 320,
+      "name": "report",
+      "title": "Informe — DecisionLab",
+      "bodyWidth": 320,
+      "viewport": 320,
+      "heading": "Herramientas para el equipo"
+    },
+    {
+      "width": 375,
+      "name": "landing",
+      "title": "DecisionLab — Compara opciones",
+      "bodyWidth": 375,
+      "viewport": 375,
+      "heading": "Compara opciones según lo que más te importa."
+    },
+    {
+      "width": 375,
+      "name": "dashboard",
+      "title": "Resumen — DecisionLab",
+      "bodyWidth": 375,
+      "viewport": 375,
+      "heading": "Tus comparaciones"
+    },
+    {
+      "width": 375,
+      "name": "comparisons",
+      "title": "Mis comparaciones — DecisionLab",
+      "bodyWidth": 375,
+      "viewport": 375,
+      "heading": "Mis comparaciones"
+    },
+    {
+      "width": 375,
+      "name": "details",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 375,
+      "viewport": 375,
+      "heading": "Datos de la comparación"
+    },
+    {
+      "width": 375,
+      "name": "alternatives",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 375,
+      "viewport": 375,
+      "heading": "Alternativas"
+    },
+    {
+      "width": 375,
+      "name": "criteria",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 375,
+      "viewport": 375,
+      "heading": "Criterios"
+    },
+    {
+      "width": 375,
+      "name": "weights",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 375,
+      "viewport": 375,
+      "heading": "Pesos"
+    },
+    {
+      "width": 375,
+      "name": "evaluation",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 375,
+      "viewport": 375,
+      "heading": "Evaluación"
+    },
+    {
+      "width": 375,
+      "name": "results",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 375,
+      "viewport": 375,
+      "heading": "Herramientas para el equipo"
+    },
+    {
+      "width": 375,
+      "name": "scenarios",
+      "title": "Escenarios — DecisionLab",
+      "bodyWidth": 375,
+      "viewport": 375,
+      "heading": "Herramientas para el equipo"
+    },
+    {
+      "width": 375,
+      "name": "transfer",
+      "title": "Configuración — DecisionLab",
+      "bodyWidth": 375,
+      "viewport": 375,
+      "heading": "Configuración"
+    },
+    {
+      "width": 375,
+      "name": "report",
+      "title": "Informe — DecisionLab",
+      "bodyWidth": 375,
+      "viewport": 375,
+      "heading": "Herramientas para el equipo"
+    },
+    {
+      "width": 390,
+      "name": "landing",
+      "title": "DecisionLab — Compara opciones",
+      "bodyWidth": 390,
+      "viewport": 390,
+      "heading": "Compara opciones según lo que más te importa."
+    },
+    {
+      "width": 390,
+      "name": "dashboard",
+      "title": "Resumen — DecisionLab",
+      "bodyWidth": 390,
+      "viewport": 390,
+      "heading": "Tus comparaciones"
+    },
+    {
+      "width": 390,
+      "name": "comparisons",
+      "title": "Mis comparaciones — DecisionLab",
+      "bodyWidth": 390,
+      "viewport": 390,
+      "heading": "Mis comparaciones"
+    },
+    {
+      "width": 390,
+      "name": "details",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 390,
+      "viewport": 390,
+      "heading": "Datos de la comparación"
+    },
+    {
+      "width": 390,
+      "name": "alternatives",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 390,
+      "viewport": 390,
+      "heading": "Alternativas"
+    },
+    {
+      "width": 390,
+      "name": "criteria",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 390,
+      "viewport": 390,
+      "heading": "Criterios"
+    },
+    {
+      "width": 390,
+      "name": "weights",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 390,
+      "viewport": 390,
+      "heading": "Pesos"
+    },
+    {
+      "width": 390,
+      "name": "evaluation",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 390,
+      "viewport": 390,
+      "heading": "Evaluación"
+    },
+    {
+      "width": 390,
+      "name": "results",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 390,
+      "viewport": 390,
+      "heading": "Herramientas para el equipo"
+    },
+    {
+      "width": 390,
+      "name": "scenarios",
+      "title": "Escenarios — DecisionLab",
+      "bodyWidth": 390,
+      "viewport": 390,
+      "heading": "Herramientas para el equipo"
+    },
+    {
+      "width": 390,
+      "name": "transfer",
+      "title": "Configuración — DecisionLab",
+      "bodyWidth": 390,
+      "viewport": 390,
+      "heading": "Configuración"
+    },
+    {
+      "width": 390,
+      "name": "report",
+      "title": "Informe — DecisionLab",
+      "bodyWidth": 390,
+      "viewport": 390,
+      "heading": "Herramientas para el equipo"
+    },
+    {
+      "width": 768,
+      "name": "landing",
+      "title": "DecisionLab — Compara opciones",
+      "bodyWidth": 768,
+      "viewport": 768,
+      "heading": "Compara opciones según lo que más te importa."
+    },
+    {
+      "width": 768,
+      "name": "dashboard",
+      "title": "Resumen — DecisionLab",
+      "bodyWidth": 768,
+      "viewport": 768,
+      "heading": "Tus comparaciones"
+    },
+    {
+      "width": 768,
+      "name": "comparisons",
+      "title": "Mis comparaciones — DecisionLab",
+      "bodyWidth": 768,
+      "viewport": 768,
+      "heading": "Mis comparaciones"
+    },
+    {
+      "width": 768,
+      "name": "details",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 768,
+      "viewport": 768,
+      "heading": "Datos de la comparación"
+    },
+    {
+      "width": 768,
+      "name": "alternatives",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 768,
+      "viewport": 768,
+      "heading": "Alternativas"
+    },
+    {
+      "width": 768,
+      "name": "criteria",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 768,
+      "viewport": 768,
+      "heading": "Criterios"
+    },
+    {
+      "width": 768,
+      "name": "weights",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 768,
+      "viewport": 768,
+      "heading": "Pesos"
+    },
+    {
+      "width": 768,
+      "name": "evaluation",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 768,
+      "viewport": 768,
+      "heading": "Evaluación"
+    },
+    {
+      "width": 768,
+      "name": "results",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 768,
+      "viewport": 768,
+      "heading": "Herramientas para el equipo"
+    },
+    {
+      "width": 768,
+      "name": "scenarios",
+      "title": "Escenarios — DecisionLab",
+      "bodyWidth": 768,
+      "viewport": 768,
+      "heading": "Herramientas para el equipo"
+    },
+    {
+      "width": 768,
+      "name": "transfer",
+      "title": "Configuración — DecisionLab",
+      "bodyWidth": 768,
+      "viewport": 768,
+      "heading": "Configuración"
+    },
+    {
+      "width": 768,
+      "name": "report",
+      "title": "Informe — DecisionLab",
+      "bodyWidth": 768,
+      "viewport": 768,
+      "heading": "Herramientas para el equipo"
+    },
+    {
+      "width": 1024,
+      "name": "landing",
+      "title": "DecisionLab — Compara opciones",
+      "bodyWidth": 1024,
+      "viewport": 1024,
+      "heading": "Compara opciones según lo que más te importa."
+    },
+    {
+      "width": 1024,
+      "name": "dashboard",
+      "title": "Resumen — DecisionLab",
+      "bodyWidth": 1024,
+      "viewport": 1024,
+      "heading": "Tus comparaciones"
+    },
+    {
+      "width": 1024,
+      "name": "comparisons",
+      "title": "Mis comparaciones — DecisionLab",
+      "bodyWidth": 1024,
+      "viewport": 1024,
+      "heading": "Mis comparaciones"
+    },
+    {
+      "width": 1024,
+      "name": "details",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 1024,
+      "viewport": 1024,
+      "heading": "Datos de la comparación"
+    },
+    {
+      "width": 1024,
+      "name": "alternatives",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 1024,
+      "viewport": 1024,
+      "heading": "Alternativas"
+    },
+    {
+      "width": 1024,
+      "name": "criteria",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 1024,
+      "viewport": 1024,
+      "heading": "Criterios"
+    },
+    {
+      "width": 1024,
+      "name": "weights",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 1024,
+      "viewport": 1024,
+      "heading": "Pesos"
+    },
+    {
+      "width": 1024,
+      "name": "evaluation",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 1024,
+      "viewport": 1024,
+      "heading": "Evaluación"
+    },
+    {
+      "width": 1024,
+      "name": "results",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 1024,
+      "viewport": 1024,
+      "heading": "Herramientas para el equipo"
+    },
+    {
+      "width": 1024,
+      "name": "scenarios",
+      "title": "Escenarios — DecisionLab",
+      "bodyWidth": 1024,
+      "viewport": 1024,
+      "heading": "Herramientas para el equipo"
+    },
+    {
+      "width": 1024,
+      "name": "transfer",
+      "title": "Configuración — DecisionLab",
+      "bodyWidth": 1024,
+      "viewport": 1024,
+      "heading": "Configuración"
+    },
+    {
+      "width": 1024,
+      "name": "report",
+      "title": "Informe — DecisionLab",
+      "bodyWidth": 1024,
+      "viewport": 1024,
+      "heading": "Herramientas para el equipo"
+    },
+    {
+      "width": 1440,
+      "name": "landing",
+      "title": "DecisionLab — Compara opciones",
+      "bodyWidth": 1440,
+      "viewport": 1440,
+      "heading": "Compara opciones según lo que más te importa."
+    },
+    {
+      "width": 1440,
+      "name": "dashboard",
+      "title": "Resumen — DecisionLab",
+      "bodyWidth": 1440,
+      "viewport": 1440,
+      "heading": "Tus comparaciones"
+    },
+    {
+      "width": 1440,
+      "name": "comparisons",
+      "title": "Mis comparaciones — DecisionLab",
+      "bodyWidth": 1440,
+      "viewport": 1440,
+      "heading": "Mis comparaciones"
+    },
+    {
+      "width": 1440,
+      "name": "details",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 1440,
+      "viewport": 1440,
+      "heading": "Datos de la comparación"
+    },
+    {
+      "width": 1440,
+      "name": "alternatives",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 1440,
+      "viewport": 1440,
+      "heading": "Alternativas"
+    },
+    {
+      "width": 1440,
+      "name": "criteria",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 1440,
+      "viewport": 1440,
+      "heading": "Criterios"
+    },
+    {
+      "width": 1440,
+      "name": "weights",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 1440,
+      "viewport": 1440,
+      "heading": "Pesos"
+    },
+    {
+      "width": 1440,
+      "name": "evaluation",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 1440,
+      "viewport": 1440,
+      "heading": "Evaluación"
+    },
+    {
+      "width": 1440,
+      "name": "results",
+      "title": "Proyecto — DecisionLab",
+      "bodyWidth": 1440,
+      "viewport": 1440,
+      "heading": "Herramientas para el equipo"
+    },
+    {
+      "width": 1440,
+      "name": "scenarios",
+      "title": "Escenarios — DecisionLab",
+      "bodyWidth": 1440,
+      "viewport": 1440,
+      "heading": "Herramientas para el equipo"
+    },
+    {
+      "width": 1440,
+      "name": "transfer",
+      "title": "Configuración — DecisionLab",
+      "bodyWidth": 1440,
+      "viewport": 1440,
+      "heading": "Configuración"
+    },
+    {
+      "width": 1440,
+      "name": "report",
+      "title": "Informe — DecisionLab",
+      "bodyWidth": 1440,
+      "viewport": 1440,
+      "heading": "Herramientas para el equipo"
+    }
+  ],
+  "routes": {
+    "landingEvaluation": {
+      "url": "http://127.0.0.1:4188/DecisionLab/app/#/evaluation",
+      "content": "Evaluación\n\nAbre una comparación guardada para registrar sus respuestas.\n\nMis comparaciones →"
+    },
+    "landingResult": {
+      "url": "http://127.0.0.1:4188/DecisionLab/app/#/results",
+      "content": "Resultados\n\nAbre los resultados de una comparación guardada.\n\nTodavía no hay comparaciones guardadas.\n\nMis comparaciones →"
+    },
+    "openFromLanding": "http://127.0.0.1:4188/DecisionLab/app/#/dashboard",
+    "reloadDashboard": "http://127.0.0.1:4188/DecisionLab/app/#/dashboard",
+    "reloadResults": "http://127.0.0.1:4188/DecisionLab/app/#/project/2a21d28b-a7a6-4ea6-80b0-9df774a4e410/results"
+  },
+  "filePicker": {
+    "name": "decisionlab-respaldo-proyecto-de-prueba-con-un-nombre-muy-largo-2026.json",
+    "width": 292,
+    "scrollWidth": 292
+  },
+  "actionTargets": [
+    {
+      "label": "Subir",
+      "width": 45.9375,
+      "height": 21.6875
+    },
+    {
+      "label": "Bajar",
+      "width": 44.828125,
+      "height": 21.6875
+    },
+    {
+      "label": "Eliminar",
+      "width": 63.75,
+      "height": 21.6875
+    },
+    {
+      "label": "Subir",
+      "width": 45.9375,
+      "height": 21.6875
+    },
+    {
+      "label": "Bajar",
+      "width": 44.828125,
+      "height": 21.6875
+    },
+    {
+      "label": "Eliminar",
+      "width": 63.75,
+      "height": 21.6875
+    }
+  ],
+  "menuFocus": {
+    "open": "true",
+    "focusedText": "Continuar proyecto →",
+    "focusedHtml": "<a class=\"btn btn--outline\" href=\"#/project/2a21d28b-a7a6-4ea6-80b0-9df774a4e410\">Continuar proyecto →</a>"
+  },
+  "maxReport": {
+    "evaluations": 5,
+    "results": 5,
+    "criteria": 8
+  },
+  "bulk": {
+    "previewMs": 74,
+    "importMs": 150,
+    "projectRows": 502,
+    "exportAllError": "El respaldo admite hasta 500 proyectos."
+  },
+  "crossTab": {
+    "persistedName": "Primera pestaña",
+    "secondTabError": "El proyecto cambió en otra pestaña. Recarga antes de guardar. Pulsa «Guardar ahora» para reintentar."
+  }
+}

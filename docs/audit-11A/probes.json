@@ -1,0 +1,108 @@
+{
+  "officialScores": [
+    {
+      "name": "Herramienta A",
+      "score": 67.5
+    },
+    {
+      "name": "Herramienta B",
+      "score": 66.25
+    },
+    {
+      "name": "Herramienta C",
+      "score": 46.25
+    }
+  ],
+  "officialScenario": [
+    {
+      "name": "Herramienta B",
+      "score": 70
+    },
+    {
+      "name": "Herramienta A",
+      "score": 60
+    },
+    {
+      "name": "Herramienta C",
+      "score": 32.5
+    }
+  ],
+  "roundTripScores": [
+    {
+      "name": "Herramienta A",
+      "score": 67.5
+    },
+    {
+      "name": "Herramienta B",
+      "score": 66.25
+    },
+    {
+      "name": "Herramienta C",
+      "score": 46.25
+    }
+  ],
+  "invalidCalendarDate": {
+    "dateParseIso": "2026-03-03T00:00:00.000Z",
+    "backup": "accepted"
+  },
+  "duplicateId": "invalid-project: El proyecto 1 contiene datos inconsistentes: El identificador está duplicado.",
+  "brokenReference": "invalid-project: El proyecto 1 contiene datos inconsistentes: La alternativa no existe.",
+  "prototypeKey": {
+    "result": "invalid-project: El proyecto 1 contiene datos inconsistentes: El criterio no existe.",
+    "polluted": null
+  },
+  "beyondMvp": {
+    "imported": "accepted",
+    "setupErrors": ["too-many-alternatives", "too-many-criteria"]
+  },
+  "limits": {
+    "ratingZero": {
+      "ok": true,
+      "value": 100
+    },
+    "ratingMax": {
+      "ok": true,
+      "value": 0
+    },
+    "zeroWeight": {
+      "ok": true,
+      "value": [
+        {
+          "criterionId": "ease",
+          "rawWeight": 3,
+          "proportion": 0.42857142857142855
+        },
+        {
+          "criterionId": "cost",
+          "rawWeight": 2,
+          "proportion": 0.2857142857142857
+        },
+        {
+          "criterionId": "integrations",
+          "rawWeight": 2,
+          "proportion": 0.2857142857142857
+        },
+        {
+          "criterionId": "support",
+          "rawWeight": 0,
+          "proportion": 0
+        }
+      ]
+    },
+    "zeroWeightScore": 70,
+    "actualTie": {
+      "ok": true,
+      "value": {
+        "actualTie": true,
+        "apparentTie": false
+      }
+    },
+    "apparentTie": {
+      "ok": true,
+      "value": {
+        "actualTie": false,
+        "apparentTie": true
+      }
+    }
+  }
+}

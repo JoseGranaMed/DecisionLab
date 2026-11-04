@@ -121,6 +121,111 @@ test('respaldo completo: restaura proyecto completo y borrador en almacenamiento
   }
 });
 
+test('502 proyectos se descargan manualmente en dos lotes y se recuperan sin pérdidas', async ({
+  page,
+  browser,
+}) => {
+  await page.goto('/app/#/settings');
+  await page.evaluate(async () => {
+    const { createProjectRepository } = await import('/src/data/project-repository.js');
+    const { createDraftProject } = await import('/src/domain/model.js');
+    const repository = createProjectRepository();
+    await repository.createProject({ name: 'Proyecto 500' });
+    await repository.createProject({ name: 'Proyecto 501' });
+    const projects = Array.from({ length: 500 }, (_, index) => ({
+      ...createDraftProject({ id: `bulk-${index}`, timestamp: '2026-11-04T00:00:00.000Z' }),
+      name: `Proyecto ${index}`,
+    }));
+    await repository.importProjects(projects, { mode: 'copy-conflicts' });
+  });
+  await page.reload();
+  await page.getByRole('button', { name: 'Exportar todos los proyectos' }).click();
+  await expect(
+    page.getByRole('heading', { name: '2 archivos para respaldar todos los proyectos' }),
+  ).toBeVisible();
+  await expect(page.locator('.transfer-batch-list li')).toHaveCount(2);
+  const backups = [];
+  for (const index of [1, 2]) {
+    const downloading = page.waitForEvent('download');
+    await page.getByRole('button', { name: `Descargar lote ${index}` }).click();
+    const file = await downloading;
+    expect(file.suggestedFilename()).toContain(`lote-0${index}-de-02`);
+    backups.push(await readFile(await file.path(), 'utf8'));
+  }
+  const exported = backups.flatMap((text) =>
+    JSON.parse(text).projects.map((project) => project.id),
+  );
+  expect(exported).toHaveLength(502);
+  expect(new Set(exported).size).toBe(502);
+  const context = await browser.newContext();
+  const fresh = await context.newPage();
+  try {
+    await fresh.goto('/app/#/settings');
+    for (const text of backups) {
+      await selectBackup(fresh, text);
+      await fresh.getByLabel('Conservar ID libres y copiar los conflictos').check();
+      await fresh.getByRole('button', { name: 'Confirmar importación' }).click();
+      await expect(fresh.locator('#transfer-status')).toContainText('proyectos importados');
+    }
+    const restored = await fresh.evaluate(async () => {
+      const { createProjectRepository } = await import('/src/data/project-repository.js');
+      return (await createProjectRepository().listProjects()).map((record) => record.id);
+    });
+    expect(restored).toHaveLength(502);
+    expect(new Set(restored)).toEqual(new Set(exported));
+  } finally {
+    await context.close();
+  }
+});
+
+test('el nombre completo del archivo seleccionado se lee a 320 px', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 800 });
+  await page.goto('/app/#/settings');
+  const name = 'decisionlab-respaldo-proyecto-de-prueba-con-un-nombre-muy-largo-2026.json';
+  await page
+    .locator('#backup-file')
+    .setInputFiles({ name, mimeType: 'application/json', buffer: Buffer.from('{') });
+  await expect(page.locator('#backup-file-name')).toHaveText(name);
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth <= globalThis.innerWidth),
+  ).toBe(true);
+});
+
+test('una importación que excede los límites del MVP se rechaza antes de confirmar', async ({
+  page,
+}) => {
+  await page.goto('/app/#/settings');
+  const text = await page.evaluate(async () => {
+    const { createDraftProject } = await import('/src/domain/model.js');
+    const { serializeBackup } = await import('/src/data/backup-format.js');
+    const project = createDraftProject({
+      id: 'large-draft',
+      timestamp: '2026-11-04T00:00:00.000Z',
+    });
+    project.name = 'Borrador grande';
+    project.alternatives = Array.from({ length: 6 }, (_, index) => ({
+      id: `a-${index}`,
+      name: `A ${index}`,
+      description: '',
+      order: index,
+    }));
+    project.criteria = Array.from({ length: 9 }, (_, index) => ({
+      id: `c-${index}`,
+      name: `C ${index}`,
+      description: '',
+      type: 'rating',
+      weight: 1,
+    }));
+    return serializeBackup([project]);
+  });
+  await selectBackup(page, text);
+  await expect(page.locator('#transfer-error')).toContainText('Borrador grande');
+  await expect(page.locator('#transfer-error')).toContainText(
+    'máximo es 5 alternativas y 8 criterios',
+  );
+  await expect(page.locator('#transfer-preview')).toBeHidden();
+});
+
 test('archivos inválidos y cancelación no escriben proyectos', async ({ page }) => {
   await example(page);
   await page.goto('/app/#/settings');
@@ -243,6 +348,16 @@ test('informe completo usa el motor, imprime sin navegación y se actualiza al e
   await expect(report).toContainText('70,00');
   await expect(report).toContainText('30,00 puntos');
   await expect(report.locator('.report-scenario-result')).toHaveCount(3);
+  expect(await report.locator('h1, h2, h3, h4').allTextContents()).toEqual(
+    expect.arrayContaining([
+      'Herramientas para el equipo',
+      'Configuración',
+      'Evaluaciones utilizadas',
+      'Clasificación · escenario base',
+    ]),
+  );
+  await expect(report.locator('table thead th[scope="col"]')).toHaveCount(4);
+  await expect(report.locator('table tbody th[scope="row"]')).toHaveCount(4);
   await page.evaluate(() => {
     window.__printed = 0;
     window.print = () => {

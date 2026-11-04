@@ -39,7 +39,7 @@ export function appShell() {
         <a href="#/comparisons" data-route="comparisons">${icon('list')}<span>Proyectos</span></a>
         <a href="#/new" data-route="new">${icon('plus')}<span>Nueva</span></a>
       </nav>
-      <div class="mobile-menu" id="mobile-menu" hidden>
+      <div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Más opciones" hidden>
         <div class="mobile-menu-title"><b>Más opciones</b><button class="icon-button" id="menu-close" type="button" aria-label="Cerrar menú">×</button></div>
         <a href="#/results" data-route="results">Resultados</a>
         <a href="#/scenarios" data-route="scenarios">Escenarios</a>
@@ -60,32 +60,44 @@ export function bindShell(root, state) {
     collapse.setAttribute('aria-label', state.collapsed ? 'Expandir menú' : 'Contraer menú');
     collapse.title = state.collapsed ? 'Expandir menú' : 'Contraer menú';
   }
-  function setMenu(open) {
+  function setMenu(open, restoreFocus = false) {
     state.setMenuOpen(open);
     menu.hidden = !state.menuOpen;
+    shell.querySelector('.app-frame').inert = state.menuOpen;
+    shell.querySelector('.bottom-nav').inert = state.menuOpen;
+    shell.querySelector('.sidebar').inert = state.menuOpen;
     menuButton.setAttribute('aria-expanded', String(state.menuOpen));
     menuButton.setAttribute(
       'aria-label',
       state.menuOpen ? 'Cerrar más opciones' : 'Abrir más opciones',
     );
+    if (state.menuOpen) menu.querySelector('a').focus();
+    else if (restoreFocus) menuButton.focus();
   }
   syncSidebar();
   collapse.addEventListener('click', () => {
     state.toggleSidebar();
     syncSidebar();
   });
-  menuButton.addEventListener('click', () => setMenu(!state.menuOpen));
-  root.querySelector('#menu-close').addEventListener('click', () => {
-    setMenu(false);
-    menuButton.focus();
-  });
+  menuButton.addEventListener('click', () => setMenu(!state.menuOpen, state.menuOpen));
+  root.querySelector('#menu-close').addEventListener('click', () => setMenu(false, true));
   menu.addEventListener('click', (event) => {
     if (event.target.closest('a')) setMenu(false);
   });
   root.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && state.menuOpen) {
-      setMenu(false);
-      menuButton.focus();
+      setMenu(false, true);
+    } else if (event.key === 'Tab' && state.menuOpen) {
+      const focusable = [...menu.querySelectorAll('button, a')];
+      const first = focusable[0];
+      const last = focusable.at(-1);
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
   });
   return { closeMenu: () => setMenu(false) };
