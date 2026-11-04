@@ -67,6 +67,15 @@ test('ejemplo oficial: motor, edición, guardado, recarga, restablecimiento y el
   await page.getByRole('button', { name: 'Crear escenario' }).click();
   await expect(page.getByLabel('Peso alternativo · Facilidad de uso')).toHaveValue('3');
   await page.getByRole('button', { name: 'Guardar ahora' }).click();
+  await expect
+    .poll(() =>
+      page.evaluate(async (projectIdValue) => {
+        const { createProjectRepository } = await import('/src/data/project-repository.js');
+        const record = await createProjectRepository().getProject(projectIdValue);
+        return record.project.scenarios[0]?.name;
+      }, id),
+    )
+    .toBe('Nuevo escenario');
   await page.reload();
   await expect(page.getByLabel('Nombre del escenario')).toHaveValue('Nuevo escenario');
   await page.goto(`/app/#/project/${id}/results`);

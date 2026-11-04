@@ -336,8 +336,18 @@ test('advierte antes de salir de una edición que no pudo guardarse', async ({ p
   await expect(
     page.getByText('No se pudo guardar. Tus cambios siguen abiertos en esta pestaña.'),
   ).toBeVisible();
-  page.once('dialog', (dialog) => dialog.dismiss());
+  const editorUrl = page.url();
+  let navigationResolved;
+  const navigationDecision = new Promise((resolve) => {
+    navigationResolved = resolve;
+  });
+  page.once('dialog', async (dialog) => {
+    await dialog.dismiss();
+    navigationResolved();
+  });
   await page.getByRole('link', { name: 'Mis comparaciones' }).last().click();
+  await navigationDecision;
+  await expect(page).toHaveURL(editorUrl);
   await expect(page.getByLabel('Nombre del proyecto')).toHaveValue('No perder');
   await page.evaluate(() => {
     window.IDBObjectStore.prototype.put = window.__originalPut;
