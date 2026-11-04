@@ -2,7 +2,7 @@
 
 ## Decisiones aplicadas
 
-1. **Dos entradas HTML.** Vite procesa `index.html` y `app/index.html`. La landing puede cargarse sin el código del espacio de trabajo. La opción `base: './'` mantiene rutas relativas en un despliegue estático bajo una subcarpeta.
+1. **Dos entradas HTML.** Vite procesa `index.html` y `app/index.html`. La landing puede cargarse sin el código del espacio de trabajo. La base local predeterminada `./` mantiene rutas relativas; el flujo de Pages define `DECISIONLAB_BASE` con la subruta real del repositorio al compilar.
 2. **Rutas dentro de la aplicación.** Se usa `#/ruta` en `app/index.html`. Esta decisión evita depender de reglas de reescritura del servidor para recarga, enlaces directos y atrás/adelante. Una ruta desconocida muestra una vista explícita de error.
 3. **Separación por responsabilidad.** `app` contiene inicialización y navegación; `features` contiene vistas; `shared/components` contiene piezas reutilizables; `styles` contiene tokens y reglas comunes. Los datos aprobados del ejemplo están en `shared/demo`; las puntuaciones de proyectos reales se calculan por el dominio.
 4. **Diseño aprobado.** Se trasladaron la paleta, tipografía, marca, hero analítico, cierre editorial, sidebar y navegación móvil. Los estilos están divididos entre base, landing, shell y vistas, sin copiar la hoja completa del prototipo.

@@ -1,0 +1,48 @@
+{
+  "basePath": "/decisionlab-preview/",
+  "screens": [
+    {
+      "width": 320,
+      "name": "landing",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "width": 320,
+      "name": "dashboard",
+      "viewport": 320,
+      "scrollWidth": 320
+    },
+    {
+      "width": 390,
+      "name": "landing",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "width": 390,
+      "name": "dashboard",
+      "viewport": 390,
+      "scrollWidth": 390
+    },
+    {
+      "width": 1440,
+      "name": "landing",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "width": 1440,
+      "name": "dashboard",
+      "viewport": 1440,
+      "scrollWidth": 1440
+    }
+  ],
+  "failures": [],
+  "example": {
+    "id": "58db553e-c387-4ea2-af99-46fde2cdfedf",
+    "alternatives": 3,
+    "criteria": 4,
+    "exported": "decisionlab-proyecto-2026-11-04.json"
+  }
+}

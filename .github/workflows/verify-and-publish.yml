@@ -1,0 +1,99 @@
+name: Verificación y GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Código y navegador
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v6
+      - name: Preparar Node.js 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Instalar dependencias desde package-lock.json
+        run: npm ci
+      - name: ESLint, Prettier, Vitest y compilación
+        run: npm run check
+      - name: Pruebas básicas
+        run: npm run test:smoke
+      - name: Instalar Chromium y bibliotecas del sistema
+        run: npx playwright install --with-deps chromium
+      - name: Pruebas de navegador
+        run: npm run test:e2e
+      - name: Compilar bajo una subruta de Pages
+        run: npm run build
+        env:
+          DECISIONLAB_BASE: /decisionlab-preview/
+      - name: Probar la compilación y el respaldo JSON
+        run: node scripts/verify-pages.mjs
+      - name: Conservar evidencia si falla el navegador
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: errores-playwright
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  pages-build:
+    name: Construir sitio para Pages
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: quality
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v6
+      - name: Preparar Node.js 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Instalar dependencias desde package-lock.json
+        run: npm ci
+      - name: Consultar la ruta real de GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+      - name: Compilar con la ruta de este repositorio
+        run: npm run build
+        env:
+          DECISIONLAB_BASE: ${{ steps.pages.outputs.base_path }}/
+      - name: Preparar archivos estáticos
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/
+
+  deploy:
+    name: Publicar en GitHub Pages
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: pages-build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: github-pages
+      cancel-in-progress: true
+    steps:
+      - name: Publicar compilación verificada
+        id: deployment
+        uses: actions/deploy-pages@v4
