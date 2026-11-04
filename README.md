@@ -2,7 +2,7 @@
 
 Aplicación web para comparar alternativas mediante criterios y pesos definidos por la persona que decide. Ayuda a ordenar una elección, revisar cómo se obtuvo cada puntuación y comprobar si el resultado cambia al modificar las prioridades. Todo funciona en el navegador; no hay cuenta, servidor propio ni base de datos remota.
 
-**Demo pública:** pendiente de publicación.
+**Demo pública:** [abrir DecisionLab](https://josegranamed.github.io/DecisionLab/).
 
 ![Landing de DecisionLab en escritorio](docs/evidence-12/landing-1440.png)
 

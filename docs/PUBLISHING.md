@@ -1,13 +1,13 @@
-# Preparación para GitHub Pages
+# Publicación en GitHub Pages
 
-El repositorio público `JoseGranaMed/DecisionLab` existe y está vacío al preparar esta actualización. El flujo `.github/workflows/verify-and-publish.yml` comprueba código, pruebas de navegador y una compilación servida bajo una subruta; solo tras superarlas construye `dist/` y lo publica en GitHub Pages al recibir un `push` a `main` o una ejecución manual. En solicitudes de cambio solo ejecuta verificaciones.
+El repositorio público es [JoseGranaMed/DecisionLab](https://github.com/JoseGranaMed/DecisionLab) y la aplicación está en [GitHub Pages](https://josegranamed.github.io/DecisionLab/). El flujo `.github/workflows/verify-and-publish.yml` comprueba código, pruebas de navegador y una compilación servida bajo una subruta; solo tras superarlas construye `dist/` y lo publica al recibir un `push` a `main` o una ejecución manual. En solicitudes de cambio solo ejecuta verificaciones.
 
-## Configuración del repositorio autorizado
+## Configuración aplicada y mantenimiento
 
-1. Vincular el proyecto Git original al repositorio autorizado y subir la rama `main` con su historial. No subir `node_modules`, `dist`, datos personales ni respaldos reales.
-2. En **Settings → Pages → Build and deployment**, elegir **Source: GitHub Actions**. El token predeterminado de `configure-pages` consulta la configuración, pero no habilita Pages por sí solo.
-3. Ejecutar o esperar el flujo de Actions. `configure-pages` proporciona la ruta base real (`/nombre-del-repositorio` o vacía para un sitio de usuario) y Vite construye ambas entradas HTML con ella. La navegación interna usa fragmentos y no requiere reglas de reescritura.
-4. Abrir la landing y `/app/` en la URL publicada. Probar un enlace directo a un proyecto, el ejemplo, resultados, escenarios, informe, exportación JSON y navegación móvil. Confirmar que no hay recursos fallidos ni desbordamiento horizontal.
+1. La rama `main` del proyecto Git original se subió con su historial. `node_modules`, `dist`, datos personales y respaldos reales quedan fuera del repositorio.
+2. Pages se habilitó con **Source: GitHub Actions**. El token predeterminado de `configure-pages` consulta la configuración, pero no habilita Pages por sí solo.
+3. `configure-pages` proporciona la ruta base real (`/DecisionLab/`) y Vite construye ambas entradas HTML con ella. La navegación interna usa fragmentos y no requiere reglas de reescritura.
+4. Tras futuros cambios, comprobar el [flujo de Actions](https://github.com/JoseGranaMed/DecisionLab/actions) y abrir la landing y `/app/`. Probar un enlace directo a un proyecto, resultados, escenarios, informe, exportación JSON y navegación móvil.
 
 La publicación crea un **origen nuevo** para IndexedDB. Los proyectos del entorno local no aparecerán allí automáticamente; pueden trasladarse mediante un respaldo JSON. Borrar datos del sitio puede eliminar los proyectos de ese origen. Google Fonts genera solicitudes externas y la aplicación no se presenta como completamente disponible sin conexión. Según la configuración de la cuenta, un sitio de Pages puede quedar públicamente accesible incluso cuando el repositorio sea privado: comprobar la visibilidad antes de confirmar el despliegue.
 

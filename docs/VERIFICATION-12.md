@@ -1,6 +1,6 @@
 # Verificación de preparación · fase 12
 
-Fecha: 2026-11-04. Revisión del proyecto existente sobre el commit inicial `2249fd0`. Esta etapa prepara la publicación; **no se ha creado repositorio remoto ni publicado la aplicación**.
+Fecha: 2026-11-04. Revisión del proyecto existente sobre el commit inicial `2249fd0`, con historial conservado en `main`. Repositorio: [JoseGranaMed/DecisionLab](https://github.com/JoseGranaMed/DecisionLab). Aplicación: [GitHub Pages](https://josegranamed.github.io/DecisionLab/).
 
 ## Ejecución local
 
@@ -24,4 +24,6 @@ La captura [móvil de 320 px](evidence-12/landing-320.png) y la de [escritorio d
 
 `npm audit` informa cuatro avisos moderados encadenados a `minimatch@10.2.6` dentro de ESLint y `@eslint/js`. Son herramientas de desarrollo, no dependencias del sitio compilado. La corrección automática ofrecida por npm baja ESLint a la rama mayor 9; no se cambió esa herramienta durante la preparación. Conviene revisar la actualización compatible cuando esté disponible.
 
-El flujo de GitHub Actions y Pages se validó como configuración local; **todavía no se ha ejecutado en GitHub**. La fuente GitHub Actions de Pages deberá habilitarse en el repositorio público `JoseGranaMed/DecisionLab` y el despliegue real tendrá que verificarse después de subir el código. El titular confirmó «Jose Granados» para la licencia MIT.
+La [primera ejecución de Actions](https://github.com/JoseGranaMed/DecisionLab/actions/runs/41932243463) pasó 104 de 106 pruebas de navegador y falló por dos esperas frágiles en pruebas. Se corrigieron sin modificar funcionalidades. La [segunda ejecución](https://github.com/JoseGranaMed/DecisionLab/actions/runs/41933322815) pasó las 106 pruebas, la compilación bajo subruta y el despliegue en Pages.
+
+En la URL pública, landing y dashboard no desbordaron a 320, 390 ni 1440 px; el menú móvil funcionó. Se recorrió el ejemplo con tres alternativas y cuatro criterios: evaluación, resultados (A 67,50), escenarios (B 70,00), informe, exportación JSON y recarga con datos persistidos. Las dos entradas HTML respondieron HTTP 200 y no hubo errores de recursos propios. Chrome cargó las fuentes de Google; el antivirus local añadió solicitudes a `gc.kis.v2.scr.kaspersky-labs.com`, ajenas al código de DecisionLab. El titular confirmó «Jose Granados» para la licencia MIT.
