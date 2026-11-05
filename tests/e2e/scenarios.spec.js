@@ -151,6 +151,15 @@ test('al eliminar un criterio con todo el peso alternativo, los resultados base 
   await page.getByLabel('Peso alternativo · Costo mensual').fill('2');
   await expect(page.getByRole('heading', { name: 'Qué cambió en la clasificación' })).toBeVisible();
   await page.getByRole('button', { name: 'Guardar ahora' }).click();
+  await expect
+    .poll(() =>
+      page.evaluate(async (projectIdValue) => {
+        const { createProjectRepository } = await import('/src/data/project-repository.js');
+        const record = await createProjectRepository().getProject(projectIdValue);
+        return record?.project.scenarios[0]?.weights.cost;
+      }, id),
+    )
+    .toBe(2);
   await page.reload();
   await expect(page.getByLabel('Peso alternativo · Costo mensual')).toHaveValue('2');
 });

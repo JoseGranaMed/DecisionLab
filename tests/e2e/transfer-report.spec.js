@@ -80,20 +80,22 @@ test('respaldo completo: restaura proyecto completo y borrador en almacenamiento
   page,
   browser,
 }) => {
-  await example(page);
+  const exampleId = await example(page);
   await page.goto('/app/#/new');
+  await expect(page).toHaveURL(/#\/project\/[^/]+$/);
+  const draftId = page.url().split('#/project/')[1];
+  expect(draftId).not.toBe(exampleId);
   await page.getByLabel('Nombre del proyecto').fill('Borrador recuperable');
   await page.getByLabel('Pregunta de decisión').fill('¿Qué opción elegir?');
   await expect
     .poll(() =>
-      page.evaluate(async () => {
+      page.evaluate(async (projectIdValue) => {
         const { createProjectRepository } = await import('/src/data/project-repository.js');
-        const records = await createProjectRepository().listProjects();
-        const draft = records.find((item) => item.project.name === 'Borrador recuperable');
-        return draft?.project.question;
-      }),
+        const record = await createProjectRepository().getProject(projectIdValue);
+        return { name: record?.project.name, question: record?.project.question };
+      }, draftId),
     )
-    .toBe('¿Qué opción elegir?');
+    .toEqual({ name: 'Borrador recuperable', question: '¿Qué opción elegir?' });
   await page.goto('/app/#/settings');
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Exportar todos los proyectos' }).click();
